@@ -1,7 +1,14 @@
-# Gulp Boilerplate [![Build Status](https://travis-ci.org/cferdinandi/gulp-boilerplate.svg)](https://travis-ci.org/cferdinandi/gulp-boilerplate)
+# Gulp Boilerplate 
 
-A boilerplate for building web projects with [Gulp](https://gulpjs.com/). Uses Gulp 4.x.
+An Gulp 4 boilerplate based on [gulp-boilerplate by @cferdinandi](https://github.com/cferdinandi/gulp-boilerplate).
 
+> This boilerplate is highly opinionated and was created mostly for personal use. If you want to use something similar check out [gulp-boilerplate by @cferdinandi](https://github.com/cferdinandi/gulp-boilerplate)
+
+TODOS:
+- [] Add Cash.js
+- [] Add sass mixins library
+- [] Add Pug
+- [] Implement production version of `default` task (Gulp)
 **Features**
 
 - Concatenate, minify, and lint JavaScript.
@@ -11,6 +18,10 @@ A boilerplate for building web projects with [Gulp](https://gulpjs.com/). Uses G
 - Automatically add headers and project details to JS and CSS files.
 - Create polyfilled and non-polyfilled versions of JS files.
 - Watch for file changes, and automatically recompile build and reload webpages.
+- 💡 **Bootstrap 4 included**
+- 💡 **Multiple sass mixins included**
+- 💡 **Pug templates included**
+- 💡 **Dockerfile included with Vscode remote-container configuration**
 
 **Gulp Boilerplate makes it easy to turn features on and off**, so you can reuse it for all of your projects without having to delete or modify tasks.
 

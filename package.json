@@ -42,5 +42,10 @@
 		"jshint-stylish": "2.2.1",
 		"lazypipe": "1.0.1"
 	},
-	"resolutions": {"lodash.template": "^4.5.0"}
+	"resolutions": {
+		"lodash.template": "^4.5.0"
+	},
+	"dependencies": {
+		"bootstrap": "^4.3.1"
+	}
 }

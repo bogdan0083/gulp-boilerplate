@@ -1,1 +1,12 @@
-@import "components/base"
+// external libraries
+@import 'bootstrap/scss/bootstrap-grid';
+@import 'bootstrap/scss/bootstrap-reboot';
+
+// variables
+@import 'variables';
+
+// mixins
+@import 'mixins/font-face';
+
+// components
+@import 'components/base';

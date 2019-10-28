@@ -190,7 +190,8 @@ var buildStyles = function (done) {
 	return src(paths.styles.input)
 		.pipe(sass({
 			outputStyle: 'expanded',
-			sourceComments: true
+			sourceComments: true,
+			includePaths: ['node_modules']
 		}))
 		.pipe(postcss([
 			prefix({

@@ -15,3 +15,5 @@ select,
 button {
 	font: inherit;
 }
+
+@include font-face(NewFont, src/fonts/lol)
