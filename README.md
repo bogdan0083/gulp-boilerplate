@@ -6,7 +6,6 @@ An Gulp 4 boilerplate based on [gulp-boilerplate by @cferdinandi](https://github
 
 TODOS:
 - [ ] Add Cash.js
-- [ ] Add sass mixins library
 - [ ] Add Pug
 - [ ] Implement production version of `default` task (Gulp)
 
