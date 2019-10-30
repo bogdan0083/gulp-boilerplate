@@ -265,7 +265,10 @@ var reloadBrowser = function (done) {
 
 // Watch for changes
 var watchSource = function (done) {
-	watch(paths.input, series(exports.default, reloadBrowser));
+	watch(paths.scripts.input, series(buildScripts, reloadBrowser));
+	watch(paths.styles.input, series(buildStyles, reloadBrowser));
+	watch(paths.svgs.input, series(buildSVGs, reloadBrowser));
+	watch(paths.copy.input, series(copyFiles, reloadBrowser));
 	done();
 };
 
