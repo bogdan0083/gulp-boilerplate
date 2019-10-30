@@ -4,12 +4,6 @@ An Gulp 4 boilerplate based on [gulp-boilerplate by @cferdinandi](https://github
 
 > This boilerplate is highly opinionated and was created mostly for personal use. If you want to use something similar check out [gulp-boilerplate by @cferdinandi](https://github.com/cferdinandi/gulp-boilerplate)
 
-TODOS:
-- [ ] Add Cash.js
-- [ ] Add Pug
-- [ ] Implement production version of `default` task (Gulp)
-
-
 **Features**
 
 - Concatenate, minify, and lint JavaScript.
