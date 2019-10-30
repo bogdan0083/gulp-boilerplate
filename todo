@@ -1,10 +1,15 @@
-1. Add browserify. Just to make sure that I actually need it
 2. Add more helper sass mixins to mixins folder
 3. Add basic bootstrap variables to variables.scss
 4. Add mixins for mq (or check out what bootstrap 4 gives us on this front?) 
 5. Add pug
 6. Add cash.js
 7. Add js slider. Probably swiper or some alternative
+    7.1 Add more js libs.
 8. Add more meta tags for pug/html files
+9. Add handler for sprites (with retina support)
+9. Add svgs. Find a way to serve svgs with cross-browser support
+10. Add images optimizer
 
 . Implement production version of `default` task (Gulp)
+. Implement gulp task for optimized version of dist (like 'dist:optimized')
+. Add browserify. Just to make sure that I actually need it
