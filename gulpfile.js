@@ -6,7 +6,7 @@
 var settings = {
 	clean: true,
 	scripts: true,
-	polyfills: true,
+	polyfills: false,
 	styles: true,
 	svgs: true,
 	copy: true,
