@@ -182,35 +182,42 @@ var lintScripts = function (done) {
 
 // Process, lint, and minify Sass files
 var buildStyles = function (done) {
+	const gulpStylelint = require('gulp-stylelint');
 
 	// Make sure this feature is activated before running
 	if (!settings.styles) return done();
 
 	// Run tasks on all Sass files
 	return src(paths.styles.input)
+		.pipe(gulpStylelint({
+			fix: true,
+			failAfterError: false,
+			syntax: 'scss',
+			reporters: [
+				{ formatter: 'string', console: true }
+			]
+		}))
 		.pipe(sass({
 			outputStyle: 'expanded',
-			sourceComments: true,
+			sourceComments: false,
 			includePaths: ['node_modules']
 		}))
 		.pipe(postcss([
 			prefix({
 				cascade: true,
-				remove: true
-			})
+				remove: true,
+			}),
+			// minify({
+			// 	preset: ['default', {
+			// 		normalizeWhitespace: false,
+			// 		minifySelectors: false,
+			// 		minifyParams: false,
+			// 	}]
+			// })
 		]))
-		.pipe(header(banner.main, {package: package}))
-		.pipe(dest(paths.styles.output))
-		.pipe(rename({suffix: '.min'}))
-		.pipe(postcss([
-			minify({
-				discardComments: {
-					removeAll: true
-				}
-			})
-		]))
+		// .pipe(header(banner.main, {package: package}))
+		// .pipe(rename({suffix: '.min'}))
 		.pipe(dest(paths.styles.output));
-
 };
 
 // Optimize SVG files
