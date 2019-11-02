@@ -81,7 +81,7 @@ var optimizejs = require('gulp-optimize-js');
 var sass = require('gulp-sass');
 var postcss = require('gulp-postcss');
 var prefix = require('autoprefixer');
-var minify = require('cssnano');
+var cssnano = require('cssnano');
 
 // SVGs
 var svgmin = require('gulp-svgmin');
@@ -203,20 +203,13 @@ var buildStyles = function (done) {
 			includePaths: ['node_modules']
 		}))
 		.pipe(postcss([
-			prefix({
-				cascade: true,
-				remove: true,
-			}),
-			// minify({
-			// 	preset: ['default', {
-			// 		normalizeWhitespace: false,
-			// 		minifySelectors: false,
-			// 		minifyParams: false,
-			// 	}]
-			// })
+			cssnano({
+				preset: ['default', {
+					rawCache: false,
+					normalizeWhitespace: false,
+				}]
+			})
 		]))
-		// .pipe(header(banner.main, {package: package}))
-		// .pipe(rename({suffix: '.min'}))
 		.pipe(dest(paths.styles.output));
 };
 
