@@ -1,0 +1,11 @@
+@mixin up($breakpoint) {
+  @include media-breakpoint-up($breakpoint) {
+    @content;
+  }
+}
+
+@mixin down($breakpoint) {
+  @include media-breakpoint-down($breakpoint) {
+    @content;
+  }
+}
