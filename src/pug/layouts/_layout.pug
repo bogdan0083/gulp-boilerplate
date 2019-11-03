@@ -1,0 +1,25 @@
+include ../mixins/all
+doctype html
+html
+  head
+    block head 
+      include _head
+
+  body()
+    //BEGIN page-wrapper
+    .page-wrapper
+      block header
+        //START header
+        include ../partials/_header
+        //END header
+      block content
+      block footer
+        //START footer
+        include ../partials/_footer
+        //END footer
+    //END page-wrapper
+
+    //LOAD SCRIPTS
+    block scripts
+      script(type="text/javascript" src="js/app.js")
+

@@ -6,6 +6,7 @@
 var settings = {
 	clean: true,
 	scripts: true,
+	html: true,
 	polyfills: false,
 	styles: true,
 	svgs: true,
@@ -25,6 +26,10 @@ var paths = {
 		input: 'src/js/*',
 		polyfills: '.polyfill.js',
 		output: 'dist/js/'
+	},
+	html: {
+		input: 'src/pug/**/*.pug',
+		output: 'dist/'
 	},
 	styles: {
 		input: 'src/sass/**/*.{scss,sass}',
@@ -89,6 +94,8 @@ var svgmin = require('gulp-svgmin');
 // BrowserSync
 var browserSync = require('browser-sync');
 
+// Pug.js
+var pug = require('gulp-pug');
 
 /**
  * Gulp Tasks
@@ -180,6 +187,18 @@ var lintScripts = function (done) {
 
 };
 
+// Build HTML 
+var buildHtml = function (done) {
+
+	// Make sure this feature is activated before running
+	if (!settings.html) return done();
+
+	// Lint scripts
+	return src(paths.html.input)
+		.pipe(pug())
+		.pipe(dest(paths.html.output));
+};
+
 // Process, lint, and minify Sass files
 var buildStyles = function (done) {
 	const gulpStylelint = require('gulp-stylelint');
@@ -266,6 +285,7 @@ var reloadBrowser = function (done) {
 // Watch for changes
 var watchSource = function (done) {
 	watch(paths.scripts.input, series(buildScripts, reloadBrowser));
+	watch(paths.html.input, series(buildHtml, reloadBrowser));
 	watch(paths.styles.input, series(buildStyles, reloadBrowser));
 	watch(paths.svgs.input, series(buildSVGs, reloadBrowser));
 	watch(paths.copy.input, series(copyFiles, reloadBrowser));
@@ -283,6 +303,7 @@ exports.default = series(
 	cleanDist,
 	parallel(
 		buildScripts,
+		buildHtml,
 		lintScripts,
 		buildStyles,
 		buildSVGs,
