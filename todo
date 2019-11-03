@@ -1,3 +1,5 @@
+. Add ssh for git
+
 7. Add js slider. Probably swiper or some alternative
     7.1 Add more js libs.
     7.2 Add basic eslint support
