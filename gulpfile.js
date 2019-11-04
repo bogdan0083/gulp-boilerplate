@@ -28,7 +28,7 @@ var paths = {
 		output: 'dist/js/'
 	},
 	html: {
-		input: 'src/pug/**/*.pug',
+		input: 'src/pug/*.pug',
 		output: 'dist/'
 	},
 	styles: {
