@@ -7,6 +7,8 @@
 9. Add svgs. Find a way to serve svgs with cross-browser support
 10. Add images optimizer
 
+Add htmllint
+
 . Implement production version of `default` task (Gulp)
 . Implement gulp task for optimized version of dist (like 'dist:optimized')
 . Add browserify. Just to make sure that I actually need it
