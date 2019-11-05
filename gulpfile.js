@@ -190,7 +190,7 @@ var lintScripts = function (done) {
 // Build HTML 
 var buildHtml = function (done) {
 
-	// Make sure this feature is activated before running
+// Make sure this feature is activated before running
 	if (!settings.html) return done();
 
 	// Lint scripts
@@ -287,7 +287,7 @@ var watchSource = function (done) {
 	watch(paths.scripts.input, series(buildScripts, reloadBrowser));
 	watch(paths.html.input, series(buildHtml, reloadBrowser));
 	watch(paths.styles.input, series(buildStyles, reloadBrowser));
-	watch(paths.svgs.input, series(buildSVGs, reloadBrowser));
+	watch(paths.svgs.input, series(buildSVGs, readBrowser));
 	watch(paths.copy.input, series(copyFiles, reloadBrowser));
 	done();
 };
