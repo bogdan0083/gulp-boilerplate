@@ -29,6 +29,7 @@ var paths = {
 	},
 	html: {
 		input: 'src/pug/*.pug',
+		watch: 'src/pug/**/*.pug',
 		output: 'dist/'
 	},
 	styles: {
@@ -119,13 +120,10 @@ var cleanDist = function (done) {
 
 // Repeated JavaScript tasks
 var jsTasks = lazypipe()
-	.pipe(header, banner.main, {package: package})
-	.pipe(optimizejs)
-	.pipe(dest, paths.scripts.output)
-	.pipe(rename, {suffix: '.min'})
-	.pipe(uglify)
-	.pipe(optimizejs)
-	.pipe(header, banner.main, {package: package})
+	// .pipe(rename, {suffix: '.min'})
+	// .pipe(uglify)
+	// .pipe(optimizejs)
+	// .pipe(header, banner.main, {package: package})
 	.pipe(dest, paths.scripts.output);
 
 // Lint, minify, and concatenate scripts
@@ -285,9 +283,9 @@ var reloadBrowser = function (done) {
 // Watch for changes
 var watchSource = function (done) {
 	watch(paths.scripts.input, series(buildScripts, reloadBrowser));
-	watch(paths.html.input, series(buildHtml, reloadBrowser));
+	watch(paths.html.watch, series(buildHtml, reloadBrowser));
 	watch(paths.styles.input, series(buildStyles, reloadBrowser));
-	watch(paths.svgs.input, series(buildSVGs, readBrowser));
+	watch(paths.svgs.input, series(buildSVGs, reloadBrowser));
 	watch(paths.copy.input, series(copyFiles, reloadBrowser));
 	done();
 };
