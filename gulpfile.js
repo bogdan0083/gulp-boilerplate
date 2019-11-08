@@ -159,6 +159,7 @@ var buildScripts = function (done) {
 				// If separate polyfills enabled, this will have .polyfills in the filename
 				src(file.path + '/*.js')
 					.pipe(concat(file.relative + suffix + '.js'))
+					.pipe(rename({ suffix: '.min' }))
 					.pipe(jsTasks());
 
 				return stream;
