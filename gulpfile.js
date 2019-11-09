@@ -43,7 +43,7 @@ var paths = {
     output: "dist/img/svg/"
   },
   images: {
-    input: "src/img/*",
+    input: ["!src/img/sprite/", "src/img/*.*"],
     output: "dist/img/"
   },
   sprite: {
