@@ -1,5 +1,4 @@
-7. Add js slider. Probably swiper or some alternative
-    7.1 Add more js libs.
+7.1 Add more js libs.
 9. Add handler for sprites (with retina support)
 9. Add svgs. Find a way to serve svgs with cross-browser support
 10. Add images optimizer
