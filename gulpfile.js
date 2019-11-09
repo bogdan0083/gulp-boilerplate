@@ -86,6 +86,7 @@ var cssnano = require("cssnano");
 
 // Images
 var spritesmith = require("gulp.spritesmith");
+var imagemin = require("gulp-imagemin");
 var merge = require("merge-stream");
 
 // SVGs
@@ -238,8 +239,10 @@ var buildSVGs = function(done) {
 // Optimize images
 // @TODO: add image optimizer support
 var buildImages = function(done) {
-  return src(paths.images.input).pipe(dest(paths.images.output));
-};
+  return src(paths.images.input)
+    .pipe(imagemin())
+    .pipe(dest(paths.images.output));
+}
 
 var buildSprites = function(done) {
   // Generate our spritesheet
