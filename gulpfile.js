@@ -14,7 +14,7 @@ var settings = {
   svgs: true,
   copy: true,
   reload: true,
-  sprite: true,
+  sprite: true
 };
 
 /**
@@ -114,11 +114,10 @@ var cleanDist = function(done) {
 };
 
 // Repeated JavaScript tasks
-var jsTasks = lazypipe()
-  .pipe(
-    dest,
-    paths.scripts.output
-  );
+var jsTasks = lazypipe().pipe(
+  dest,
+  paths.scripts.output
+);
 
 // Lint, minify, and concatenate scripts
 var buildScripts = function(done) {
@@ -212,10 +211,13 @@ var buildStyles = function(done) {
     .pipe(
       postcss([
         cssnano({
-        	preset: ['default', {
-        		rawCache: false,
-        		normalizeWhitespace: false,
-        	}]
+          preset: [
+            "default",
+            {
+              rawCache: false,
+              normalizeWhitespace: false
+            }
+          ]
         })
       ])
     )
@@ -241,18 +243,18 @@ var buildImages = function(done) {
 
 var buildSprites = function(done) {
   // Generate our spritesheet
-  var spriteData = src(paths.sprite.input).pipe(spritesmith({
-    imgName: 'sprite.png',
-    cssName: '_sprite.scss'
-  }));
+  var spriteData = src(paths.sprite.input).pipe(
+    spritesmith({
+      imgName: "sprite.png",
+      cssName: "_sprite.scss"
+    })
+  );
 
   // Pipe image stream through image optimizer and onto disk
-  var imgStream = spriteData.img
-    .pipe(dest(paths.sprite.output));
+  var imgStream = spriteData.img.pipe(dest(paths.sprite.output));
 
   // Pipe CSS stream through CSS optimizer and onto disk
-  var cssStream = spriteData.css
-    .pipe(dest(paths.sprite.outputScss));
+  var cssStream = spriteData.css.pipe(dest(paths.sprite.outputScss));
 
   // Return a merged stream to handle both `end` events
   return merge(imgStream, cssStream);
