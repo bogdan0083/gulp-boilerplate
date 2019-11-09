@@ -59,22 +59,6 @@ var paths = {
 };
 
 /**
- * Template for banner to add to file headers
- */
-
-var banner = {
-  main:
-    "/*!" +
-    " <%= package.name %> v<%= package.version %>" +
-    " | (c) " +
-    new Date().getFullYear() +
-    " <%= package.author.name %>" +
-    " | <%= package.license %> License" +
-    " | <%= package.repository.url %>" +
-    " */\n"
-};
-
-/**
  * Gulp Packages
  */
 
