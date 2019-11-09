@@ -299,6 +299,7 @@ var watchSource = function(done) {
   watch(paths.styles.input, series(buildStyles, reloadBrowser));
   watch(paths.svgs.input, series(buildSVGs, reloadBrowser));
   watch(paths.images.input, series(buildImages, reloadBrowser));
+  watch(paths.sprite.input, series(buildSprites, reloadBrowser));
   watch(paths.copy.input, series(copyFiles, reloadBrowser));
   done();
 };
