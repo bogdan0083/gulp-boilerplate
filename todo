@@ -1,5 +1,6 @@
 9. Add svgs. Find a way to serve svgs with cross-browser support
 10. Add images optimizer
+  10.1. Add imagemin-mozjpeg
 
 Add htmllint
 
