@@ -88,6 +88,11 @@ var cssnano = require("cssnano");
 var spritesmith = require("gulp.spritesmith");
 var imagemin = require("gulp-imagemin");
 var merge = require("merge-stream");
+var cache = require("gulp-cache");
+var imageminPngquant = require("imagemin-pngquant");
+var imageminZopfli = require("imagemin-zopfli");
+var imageminMozjpeg = require("imagemin-mozjpeg"); //need to run 'brew install libpng'
+var imageminGiflossy = require("imagemin-giflossy");
 
 // SVGs
 var svgmin = require("gulp-svgmin");
@@ -106,6 +111,9 @@ var pug = require("gulp-pug");
 var cleanDist = function(done) {
   // Make sure this feature is activated before running
   if (!settings.clean) return done();
+
+  // clear all the cache for our image optimizations
+  cache.clearAll();
 
   // Clean the dist folder
   del.sync([paths.output]);
@@ -237,19 +245,54 @@ var buildSVGs = function(done) {
 };
 
 // Optimize images
-// @TODO: add image optimizer support
-var buildImages = function(done) {
+var buildImages = function() {
   return src(paths.images.input)
-    .pipe(imagemin())
+    .pipe(
+      cache(
+        imagemin([
+          imageminPngquant({
+            speed: 1,
+            quality: [0.95, 1] //lossy settings
+          }),
+          imageminZopfli({
+            more: true
+            // iterations: 50 // very slow but more effective
+          }),
+          //gif very light lossy, use only one of gifsicle or Giflossy
+          imageminGiflossy({
+            optimizationLevel: 3,
+            optimize: 3, //keep-empty: Preserve empty transparent frames
+            lossy: 2
+          }),
+          //svg
+          imagemin.svgo({
+            plugins: [
+              {
+                removeViewBox: false
+              }
+            ]
+          }),
+          //jpg lossless
+          imagemin.jpegtran({
+            progressive: true
+          }),
+          //jpg very light lossy, use vs jpegtran
+          imageminMozjpeg({
+            quality: 90
+          })
+        ], { verbose: true })
+      )
+    )
     .pipe(dest(paths.images.output));
-}
+};
 
 var buildSprites = function(done) {
   // Generate our spritesheet
   var spriteData = src(paths.sprite.input).pipe(
     spritesmith({
       imgName: "sprite.png",
-      cssName: "_sprite.scss"
+      cssName: "_sprite.scss",
+      padding: 10
     })
   );
 
@@ -316,13 +359,11 @@ var watchSource = function(done) {
 exports.default = series(
   cleanDist,
   parallel(
-    buildImages,
-    buildSprites,
+    series(buildSprites, buildSVGs, buildImages),
     buildScripts,
     buildHtml,
     lintScripts,
     buildStyles,
-    buildSVGs,
     copyFiles
   )
 );
