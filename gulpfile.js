@@ -48,7 +48,7 @@ var paths = {
   },
   sprite: {
     input: "src/img/sprite/*",
-    output: "dist/img/",
+    output: "src/img/",
     outputScss: "src/sass/mixins"
   },
   copy: {
