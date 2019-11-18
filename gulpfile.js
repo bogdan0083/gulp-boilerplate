@@ -91,7 +91,7 @@ var merge = require("merge-stream");
 var cache = require("gulp-cache");
 var imageminPngquant = require("imagemin-pngquant");
 var imageminZopfli = require("imagemin-zopfli");
-var imageminMozjpeg = require("imagemin-mozjpeg"); //need to run 'brew install libpng'
+var imageminMozjpeg = require("imagemin-mozjpeg"); 
 var imageminGiflossy = require("imagemin-giflossy");
 
 // SVGs
