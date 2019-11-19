@@ -11,3 +11,4 @@ test/coverage
 
 # Dist
 dist
+.idea
