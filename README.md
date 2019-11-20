@@ -130,7 +130,7 @@ var settings = {
 	scripts: true,
 	polyfills: true,
 	styles: true,
-	svgs: true,
+	svgSprites: true,
 	copy: true,
 	reload: true
 };
@@ -158,7 +158,7 @@ var paths = {
 		input: 'src/sass/**/*.{scss,sass}',
 		output: 'dist/css/'
 	},
-	svgs: {
+	svgSprites: {
 		input: 'src/svg/*.svg',
 		output: 'dist/svg/'
 	},

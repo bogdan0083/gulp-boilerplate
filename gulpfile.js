@@ -11,7 +11,7 @@ var settings = {
   html: true,
   polyfills: false,
   styles: true,
-  svgs: true,
+  svgSprites: true,
   copy: true,
   reload: true,
   sprite: true
@@ -38,12 +38,12 @@ var paths = {
     input: "src/sass/**/*.{scss,sass}",
     output: "dist/css/"
   },
-  svgs: {
-    input: "src/img/svg/*.svg",
-    output: "dist/img/svg/"
+  svgSprites: {
+    input: "src/img/icons/*.svg",
+    output: "src/img/"
   },
   images: {
-    input: ["!src/img/sprite", "src/img/**/*"],
+    input: ["!src/img/icons", "src/img/**/*"],
     output: "dist/img/"
   },
   sprite: {
@@ -96,6 +96,11 @@ var imageminGiflossy = require("imagemin-giflossy");
 
 // SVGs
 var svgmin = require("gulp-svgmin");
+var svgStore = require("gulp-svgstore");
+var cheerio = require('cheerio');
+var gulpcheerio = require('gulp-cheerio');
+var through2 = require('through2');
+var consolidate = require('gulp-consolidate');
 
 // BrowserSync
 var browserSync = require("browser-sync");
@@ -103,11 +108,14 @@ var browserSync = require("browser-sync");
 // Pug.js
 var pug = require("gulp-pug");
 
+// svgStore
+
 // Prettifier
 var prettify = require("gulp-prettify");
 
 // HTMLHint
 var htmlhint = require("gulp-htmlhint");
+
 
 /**
  * Gulp Tasks
@@ -249,14 +257,78 @@ var buildStyles = function (done) {
 };
 
 // Optimize SVG files
-var buildSVGs = function (done) {
+var buildSvgSprites = function (done) {
   // Make sure this feature is activated before running
-  if (!settings.svgs) return done();
+  if (!settings.svgSprites) return done();
 
   // Optimize SVG files
-  return src(paths.svgs.input)
-    .pipe(svgmin())
-    .pipe(dest(paths.svgs.output));
+  return src(paths.svgSprites.input)
+    .pipe(
+      gulpcheerio({
+        run: function ($, file) {
+
+          $('[fill]:not([fill="currentColor"])').removeAttr('fill');
+          $('[stroke]').removeAttr('stroke');
+          let w, h, size;
+          if ($('svg').attr('height')) {
+            w = $('svg').attr('width').replace(/\D/g, '');
+            h = $('svg').attr('height').replace(/\D/g, '');
+          } else {
+            size = $('svg').attr('viewbox').split(' ').splice(2);
+            w = size[0];
+            h = size[1];
+            $('svg').attr('width', parseInt(w));
+            $('svg').attr('height', parseInt(h));
+          }
+          $('svg').attr('viewBox', '0 0 ' + parseInt(w) + ' ' + parseInt(h));
+        },
+        parserOptions: {xmlMode: true}
+      })
+    )
+    .pipe(svgmin({
+      js2svg: {
+        pretty: true
+      },
+      plugins: [{
+        removeDesc: true
+      }, {
+        cleanupIDs: true
+      }, {
+        removeViewBox: false
+      }, {
+        mergePaths: false
+      }]
+    }))
+    .pipe(rename({prefix: 'icon-'}))
+    .pipe(svgStore({inlineSvg: false}))
+    .pipe(through2.obj(function (file, encoding, cb) {
+      let $ = cheerio.load(file.contents.toString(), {xmlMode: true});
+      let data = $('svg > symbol').map(function () {
+        let $this = $(this);
+        let size = $this.attr('viewBox').split(' ').splice(2);
+        let name = $this.attr('id');
+        let ratio = size[0] / size[1]; // symbol width / symbol height
+        let fill = $this.find('[fill]:not([fill="currentColor"])').attr('fill');
+        let stroke = $this.find('[stroke]').attr('stroke');
+
+        return {
+          name: name,
+          ratio: +ratio.toFixed(2),
+          fill: fill || 'initial',
+          stroke: stroke || 'initial'
+        };
+      }).get()
+      this.push(file);
+      src('src/svg-sprite/_svg-sprite.scss')
+        .pipe(consolidate('lodash', {
+          symbols: data
+        }))
+        .pipe(dest('src/sass/'));
+      cb();
+    }))
+
+    .pipe(rename({basename: 'icons'}))
+    .pipe(dest(paths.svgSprites.output));
 };
 
 // Optimize images
@@ -280,22 +352,6 @@ var buildImages = function () {
             lossy: 2
           }),
           //svg
-          // @TODO: check out other options for svgo
-          imagemin.svgo({
-            plugins: [
-              {
-                removeViewBox: false,
-                plugins: [{
-                  removeDesc: true
-                }, {
-                  cleanupIDs: true
-                }, {
-                  mergePaths: false
-                }]
-              },
-
-            ]
-          }),
           //jpg lossless
           imagemin.jpegtran({
             progressive: true
@@ -367,7 +423,7 @@ var watchSource = function (done) {
   watch(paths.scripts.input, series(buildScripts, reloadBrowser));
   watch(paths.html.watch, series(buildHtml, reloadBrowser));
   watch(paths.styles.input, series(buildStyles, reloadBrowser));
-  watch(paths.svgs.input, series(buildSVGs, reloadBrowser));
+  watch(paths.svgSprites.input, series(buildSvgSprites, reloadBrowser));
   watch(paths.images.input, series(buildImages, reloadBrowser));
   watch(paths.sprite.input, series(buildSprites, reloadBrowser));
   watch(paths.copy.input, series(copyFiles, reloadBrowser));
@@ -383,7 +439,7 @@ var watchSource = function (done) {
 exports.default = series(
   cleanDist,
   parallel(
-    series(buildSprites, buildSVGs, buildImages),
+    series(buildSprites, buildSvgSprites, buildImages),
     buildScripts,
     buildHtml,
     lintScripts,
