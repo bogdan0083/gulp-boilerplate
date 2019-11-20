@@ -103,6 +103,9 @@ var browserSync = require("browser-sync");
 // Pug.js
 var pug = require("gulp-pug");
 
+// Prettifier
+var prettify = require("gulp-prettify");
+
 /**
  * Gulp Tasks
  */
@@ -190,6 +193,13 @@ var buildHtml = function(done) {
   // Lint scripts
   return src(paths.html.input)
     .pipe(pug())
+    .pipe(prettify({
+      indent_size: 2,
+      wrap_attributes: 'auto', // 'force'
+      preserve_newlines: true,
+      // unformatted: [],
+      end_with_newline: true
+    }))
     .pipe(dest(paths.html.output));
 };
 
