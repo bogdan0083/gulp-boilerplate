@@ -11,4 +11,7 @@ test/coverage
 
 # Dist
 dist
+
+# idea files
 .idea
+debug.log
