@@ -47,7 +47,7 @@ var paths = {
     output: "dist/img/"
   },
   sprite: {
-    input: "src/img/sprite/*",
+    input: "src/img/icons/*.{jpg,png,gif}",
     output: "src/img/",
     outputScss: "src/sass/mixins"
   },
@@ -107,8 +107,6 @@ var browserSync = require("browser-sync");
 
 // Pug.js
 var pug = require("gulp-pug");
-
-// svgStore
 
 // Prettifier
 var prettify = require("gulp-prettify");
@@ -370,7 +368,7 @@ var buildSprites = function (done) {
   // Generate our spritesheet
   var spriteData = src(paths.sprite.input).pipe(
     spritesmith({
-      imgName: "sprite.png",
+      imgName: "icons.png",
       cssName: "_sprite.scss",
       padding: 10
     })
