@@ -106,6 +106,9 @@ var pug = require("gulp-pug");
 // Prettifier
 var prettify = require("gulp-prettify");
 
+// HTMLHint
+var htmlhint =  require("gulp-htmlhint");
+
 /**
  * Gulp Tasks
  */
@@ -200,6 +203,8 @@ var buildHtml = function(done) {
       // unformatted: [],
       end_with_newline: true
     }))
+    .pipe(htmlhint('.htmlhintrc'))
+    .pipe(htmlhint.reporter())
     .pipe(dest(paths.html.output));
 };
 

@@ -62,6 +62,7 @@
 	},
 	"dependencies": {
 		"bootstrap": "^4.3.1",
+		"gulp-htmlhint": "^3.0.0",
 		"normalize.css": "^8.0.1",
 		"stylelint-config-standard": "^19.0.0"
 	}
