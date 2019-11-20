@@ -63,7 +63,7 @@ var paths = {
  */
 
 // General
-var { gulp, src, dest, watch, series, parallel } = require("gulp");
+var {gulp, src, dest, watch, series, parallel} = require("gulp");
 var del = require("del");
 var flatmap = require("gulp-flatmap");
 var lazypipe = require("lazypipe");
@@ -91,7 +91,7 @@ var merge = require("merge-stream");
 var cache = require("gulp-cache");
 var imageminPngquant = require("imagemin-pngquant");
 var imageminZopfli = require("imagemin-zopfli");
-var imageminMozjpeg = require("imagemin-mozjpeg"); 
+var imageminMozjpeg = require("imagemin-mozjpeg");
 var imageminGiflossy = require("imagemin-giflossy");
 
 // SVGs
@@ -107,14 +107,14 @@ var pug = require("gulp-pug");
 var prettify = require("gulp-prettify");
 
 // HTMLHint
-var htmlhint =  require("gulp-htmlhint");
+var htmlhint = require("gulp-htmlhint");
 
 /**
  * Gulp Tasks
  */
 
 // Remove pre-existing content from output folders
-var cleanDist = function(done) {
+var cleanDist = function (done) {
   // Make sure this feature is activated before running
   if (!settings.clean) return done();
 
@@ -135,13 +135,13 @@ var jsTasks = lazypipe().pipe(
 );
 
 // Lint, minify, and concatenate scripts
-var buildScripts = function(done) {
+var buildScripts = function (done) {
   // Make sure this feature is activated before running
   if (!settings.scripts) return done();
 
   // Run tasks on script files
   return src(paths.scripts.input).pipe(
-    flatmap(function(stream, file) {
+    flatmap(function (stream, file) {
       // If the file is a directory
       if (file.isDirectory()) {
         // Setup a suffix variable
@@ -165,7 +165,7 @@ var buildScripts = function(done) {
         // If separate polyfills enabled, this will have .polyfills in the filename
         src(file.path + "/*.js")
           .pipe(concat(file.relative + suffix + ".js"))
-          .pipe(rename({ suffix: ".min" }))
+          .pipe(rename({suffix: ".min"}))
           .pipe(jsTasks());
 
         return stream;
@@ -178,7 +178,7 @@ var buildScripts = function(done) {
 };
 
 // Lint scripts
-var lintScripts = function(done) {
+var lintScripts = function (done) {
   // Make sure this feature is activated before running
   if (!settings.scripts) return done();
 
@@ -189,7 +189,7 @@ var lintScripts = function(done) {
 };
 
 // Build HTML
-var buildHtml = function(done) {
+var buildHtml = function (done) {
   // Make sure this feature is activated before running
   if (!settings.html) return done();
 
@@ -209,7 +209,7 @@ var buildHtml = function(done) {
 };
 
 // Process, lint, and minify Sass files
-var buildStyles = function(done) {
+var buildStyles = function (done) {
   const gulpStylelint = require("gulp-stylelint");
 
   // Make sure this feature is activated before running
@@ -222,7 +222,7 @@ var buildStyles = function(done) {
         fix: true,
         failAfterError: false,
         syntax: "scss",
-        reporters: [{ formatter: "string", console: true }]
+        reporters: [{formatter: "string", console: true}]
       })
     )
     .pipe(
@@ -249,7 +249,7 @@ var buildStyles = function(done) {
 };
 
 // Optimize SVG files
-var buildSVGs = function(done) {
+var buildSVGs = function (done) {
   // Make sure this feature is activated before running
   if (!settings.svgs) return done();
 
@@ -260,7 +260,7 @@ var buildSVGs = function(done) {
 };
 
 // Optimize images
-var buildImages = function() {
+var buildImages = function () {
   return src(paths.images.input)
     .pipe(
       cache(
@@ -280,11 +280,20 @@ var buildImages = function() {
             lossy: 2
           }),
           //svg
+          // @TODO: check out other options for svgo
           imagemin.svgo({
             plugins: [
               {
-                removeViewBox: false
-              }
+                removeViewBox: false,
+                plugins: [{
+                  removeDesc: true
+                }, {
+                  cleanupIDs: true
+                }, {
+                  mergePaths: false
+                }]
+              },
+
             ]
           }),
           //jpg lossless
@@ -295,13 +304,13 @@ var buildImages = function() {
           imageminMozjpeg({
             quality: 90
           })
-        ], { verbose: true })
+        ], {verbose: true})
       )
     )
     .pipe(dest(paths.images.output));
 };
 
-var buildSprites = function(done) {
+var buildSprites = function (done) {
   // Generate our spritesheet
   var spriteData = src(paths.sprite.input).pipe(
     spritesmith({
@@ -322,7 +331,7 @@ var buildSprites = function(done) {
 };
 
 // Copy static files into output folder
-var copyFiles = function(done) {
+var copyFiles = function (done) {
   // Make sure this feature is activated before running
   if (!settings.copy) return done();
 
@@ -331,7 +340,7 @@ var copyFiles = function(done) {
 };
 
 // Watch for changes to the src directory
-var startServer = function(done) {
+var startServer = function (done) {
   // Make sure this feature is activated before running
   if (!settings.reload) return done();
 
@@ -347,14 +356,14 @@ var startServer = function(done) {
 };
 
 // Reload the browser when files change
-var reloadBrowser = function(done) {
+var reloadBrowser = function (done) {
   if (!settings.reload) return done();
   browserSync.reload();
   done();
 };
 
 // Watch for changes
-var watchSource = function(done) {
+var watchSource = function (done) {
   watch(paths.scripts.input, series(buildScripts, reloadBrowser));
   watch(paths.html.watch, series(buildHtml, reloadBrowser));
   watch(paths.styles.input, series(buildStyles, reloadBrowser));
