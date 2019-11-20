@@ -1,6 +1,5 @@
 9. Add svgs. Find a way to serve svgs with cross-browser support
 
-Add prettifier for html (pug output)
 Add htmllint
 
 . Implement production version of `default` task (Gulp)
