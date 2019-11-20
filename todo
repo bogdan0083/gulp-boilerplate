@@ -1,6 +1,3 @@
-9. Add svgs. Find a way to serve svgs with cross-browser support
 
 . Implement production version of `default` task (Gulp)
 . Implement gulp task for optimized version of dist (like 'dist:optimized')
-
-. new
