@@ -70,6 +70,7 @@ var lazypipe = require("lazypipe");
 var rename = require("gulp-rename");
 var header = require("gulp-header");
 var package = require("./package.json");
+var path = require("path");
 
 // Scripts
 var jshint = require("gulp-jshint");
@@ -235,7 +236,14 @@ var buildStyles = function (done) {
       sass({
         outputStyle: "expanded",
         sourceComments: false,
-        includePaths: ["node_modules"]
+        includePaths: ["node_modules"],
+        importer: (url) => {
+          if (url && url[0] === '~') {
+            url = path.resolve('node_modules', url.substr(1));
+          }
+          
+          return { file: url };
+        }
       })
     )
     .pipe(
@@ -315,7 +323,7 @@ var buildSvgSprites = function (done) {
           fill: fill || 'initial',
           stroke: stroke || 'initial'
         };
-      }).get()
+      }).get();
       this.push(file);
       src('src/svg-sprite/_svg-sprite.scss')
         .pipe(consolidate('lodash', {
