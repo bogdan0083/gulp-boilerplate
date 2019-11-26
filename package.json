@@ -73,6 +73,7 @@
 		"jquery": "^3.4.1",
 		"normalize.css": "^8.0.1",
 		"stylelint-config-standard": "^19.0.0",
+		"svg4everybody": "^2.1.9",
 		"swiper": "^5.2.1"
 	}
 }

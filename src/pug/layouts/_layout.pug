@@ -1,8 +1,9 @@
 include ../mixins/all
+- var endBuildComment = "\n" + "<!-- endbuild -->"
 doctype html
 html
   head
-    block head 
+    block head
       include _head
 
   body()
@@ -21,12 +22,17 @@ html
 
     //LOAD SCRIPTS
     block scripts
-      script(type="text/javascript" src="js/svg4everybody.min.js")
+      // build:js js/svg4everybody.min.js
+      script(src="node_modules/svg4everybody/dist/svg4everybody.min.js")
+      != endBuildComment
+
       script svg4everybody();
       != "\n"
+
       // build:js js/libs.min.js
-      script(type="text/javascript" src="node_modules/jquery/dist/jquery.min.js")
-      script(type="text/javascript" src="node_modules/swiper/js/swiper.min.js")
-      script(type="text/javascript" src="node_modules/aos/dist/aos.js")
-      != ("\n" + "<!-- endbuild -->")
-      script(type="text/javascript" src="js/main.js")
+      script(src="node_modules/jquery/dist/jquery.min.js")
+      script(src="node_modules/swiper/js/swiper.min.js")
+      script(src="node_modules/aos/dist/aos.js")
+      != endBuildComment
+
+      script(src="js/main.js")
