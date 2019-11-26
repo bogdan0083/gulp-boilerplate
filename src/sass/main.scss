@@ -1,10 +1,12 @@
-// @TODO: We import extenal libraries with relative path 
+// @TODO: We import extenal libraries with relative path
 // for now to make autocomplete suggestions show up on imported libs
 // Normalize.css
 @import '../../node_modules/normalize.css/normalize';
 
 // external libraries
 @import '../../node_modules/bootstrap/scss/bootstrap-grid.scss';
+@import '../../node_modules/aos/dist/aos';
+@import '../../node_modules/swiper/swiper.scss';
 
 // @import 'bootstrap/scss/bootstrap-reboot';
 @import '../../node_modules/bootstrap/scss/mixins/breakpoints.scss';

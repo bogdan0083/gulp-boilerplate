@@ -78,6 +78,7 @@ var stylish = require("jshint-stylish");
 var concat = require("gulp-concat");
 var uglify = require("gulp-terser");
 var optimizejs = require("gulp-optimize-js");
+var useref = require("gulp-useref");
 
 // Styles
 var sass = require("gulp-sass");
@@ -207,11 +208,10 @@ var buildHtml = function (done) {
       indent_size: 2,
       wrap_attributes: 'auto', // 'force'
       preserve_newlines: true,
-      // unformatted: [],
-      end_with_newline: true
+      end_with_newline: true,
+      indent_inner_html: true
     }))
-    .pipe(htmlhint('.htmlhintrc'))
-    .pipe(htmlhint.reporter())
+    .pipe(useref({ searchPath: __dirname }))
     .pipe(dest(paths.html.output));
 };
 

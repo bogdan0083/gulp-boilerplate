@@ -21,8 +21,12 @@ html
 
     //LOAD SCRIPTS
     block scripts
-      script(type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
-      script(type="text/javascript" src="js/libs.min.js")
-      script()
-        | svg4everybody();
+      script(type="text/javascript" src="js/svg4everybody.min.js")
+      script svg4everybody();
+      != "\n"
+      // build:js js/libs.min.js
+      script(type="text/javascript" src="node_modules/jquery/dist/jquery.min.js")
+      script(type="text/javascript" src="node_modules/swiper/js/swiper.min.js")
+      script(type="text/javascript" src="node_modules/aos/dist/aos.js")
+      != ("\n" + "<!-- endbuild -->")
       script(type="text/javascript" src="js/main.js")
