@@ -1,3 +1,4 @@
 
+. Add fancybox or some other stuff for popups
 . Implement production version of `default` task (Gulp)
 . Implement gulp task for optimized version of dist (like 'dist:optimized')
