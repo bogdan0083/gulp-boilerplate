@@ -23,6 +23,8 @@
 		"> 0.25%"
 	],
 	"devDependencies": {
+		"@types/aos": "^3.0.3",
+		"@types/swiper": "^5.2.0",
 		"autoprefixer": "9.6.1",
 		"browser-sync": "2.26.7",
 		"cheerio": "^1.0.0-rc.3",
@@ -68,6 +70,8 @@
 	},
 	"dependencies": {
 		"@fancyapps/fancybox": "^3.5.7",
+		"@types/fancybox": "^3.5.2",
+		"@types/jquery": "^3.3.31",
 		"aos": "^3.0.0-beta.6",
 		"bootstrap": "^4.3.1",
 		"gulp-htmlhint": "^3.0.0",
