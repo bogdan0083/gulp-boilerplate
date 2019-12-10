@@ -211,7 +211,7 @@ var buildHtml = function (done) {
       end_with_newline: true,
       indent_inner_html: true
     }))
-    .pipe(useref({ searchPath: __dirname }))
+    .pipe(useref({searchPath: __dirname}))
     .pipe(dest(paths.html.output));
 };
 
@@ -241,22 +241,25 @@ var buildStyles = function (done) {
           if (url && url[0] === '~') {
             url = path.resolve('node_modules', url.substr(1));
           }
-          
-          return { file: url };
+          return {file: url};
         }
       })
     )
     .pipe(
       postcss([
-        cssnano({
-          preset: [
-            "default",
-            {
-              rawCache: false,
-              normalizeWhitespace: false
-            }
-          ]
-        })
+        // cssnano({
+        //   preset: [
+        //     "default",
+        //     {
+        //       rawCache: false,
+        //       normalizeWhitespace: false
+        //     }
+        //   ]
+        // }),
+        require('postcss-sort-media-queries')({
+          // sort: 'mobile-first' default value
+          sort: 'mobile-first'
+        }),
       ])
     )
     .pipe(dest(paths.styles.output));
@@ -272,7 +275,6 @@ var buildSvgSprites = function (done) {
     .pipe(
       gulpcheerio({
         run: function ($, file) {
-
           $('[fill]:not([fill="currentColor"])').removeAttr('fill');
           $('[stroke]').removeAttr('stroke');
           let w, h, size;
