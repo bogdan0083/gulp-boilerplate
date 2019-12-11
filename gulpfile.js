@@ -247,15 +247,16 @@ var buildStyles = function (done) {
     )
     .pipe(
       postcss([
-        // cssnano({
-        //   preset: [
-        //     "default",
-        //     {
-        //       rawCache: false,
-        //       normalizeWhitespace: false
-        //     }
-        //   ]
-        // }),
+        prefix(),
+        cssnano({
+          preset: [
+            "default",
+            {
+              rawCache: false,
+              normalizeWhitespace: false
+            }
+          ]
+        }),
         require('postcss-sort-media-queries')({
           // sort: 'mobile-first' default value
           sort: 'mobile-first'

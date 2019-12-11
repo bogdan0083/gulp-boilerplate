@@ -19,13 +19,13 @@
 		"repo": "http://github.com/cferdinandi/gulp-boilerplate"
 	},
 	"browserslist": [
-		"last 2 versions",
-		"> 0.25%"
+		"defaults",
+    "ie 10-11"
 	],
 	"devDependencies": {
 		"@types/aos": "^3.0.3",
 		"@types/swiper": "^5.2.0",
-		"autoprefixer": "9.6.1",
+		"autoprefixer": "^9.7.3",
 		"browser-sync": "2.26.7",
 		"cheerio": "^1.0.0-rc.3",
 		"cssnano": "4.1.10",
