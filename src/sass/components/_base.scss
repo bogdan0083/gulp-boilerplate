@@ -1,3 +1,10 @@
+// Change from `box-sizing: content-box` so that `width` is not affected by `padding` or `border`.
+*,
+*::before,
+*::after {
+  box-sizing: border-box; 
+}
+
 /* Base styles start*/
 body {
 	background-color: #fff;
