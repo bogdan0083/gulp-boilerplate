@@ -211,6 +211,8 @@ var buildHtml = function (done) {
       end_with_newline: true,
       indent_inner_html: true
     }))
+    .pipe(htmlhint('.htmlhintrc'))
+    .pipe(htmlhint.reporter())
     .pipe(useref({searchPath: __dirname}))
     .pipe(dest(paths.html.output));
 };
