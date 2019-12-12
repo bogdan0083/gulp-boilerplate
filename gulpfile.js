@@ -55,6 +55,10 @@ var paths = {
     input: "src/copy/**/*",
     output: "dist/"
   },
+  svgo: {
+    input: "src/svgo/input/*.svg",
+    output: "src/svgo/output/",
+  },
   reload: "./dist/"
 };
 
@@ -342,6 +346,27 @@ var buildSvgSprites = function (done) {
     .pipe(dest(paths.svgSprites.output));
 };
 
+var svgo = function() {
+  return src(paths.svgo.input)
+    .pipe( 
+      svgmin({
+        js2svg: {
+          pretty: true
+        },
+        plugins: [{
+          removeDesc: true
+        }, {
+          cleanupIDs: true
+        }, {
+          removeViewBox: false
+        }, {
+          mergePaths: true
+        }]
+      })
+    )
+    .pipe(dest(paths.svgo.output));
+}
+
 // Optimize images
 var buildImages = function () {
   return src(paths.images.input)
@@ -433,6 +458,7 @@ var reloadBrowser = function (done) {
 var watchSource = function (done) {
   watch(paths.scripts.input, series(buildScripts, reloadBrowser));
   watch(paths.html.watch, series(buildHtml, reloadBrowser));
+  watch(paths.svgo.input, series(svgo, buildHtml, reloadBrowser));
   watch(paths.styles.input, series(buildStyles, reloadBrowser));
   watch(paths.svgSprites.input, series(buildSvgSprites, reloadBrowser));
   watch(paths.images.input, series(buildImages, reloadBrowser));
@@ -452,7 +478,7 @@ exports.default = series(
   parallel(
     series(buildSprites, buildSvgSprites, buildImages),
     buildScripts,
-    buildHtml,
+    series(svgo, buildHtml),
     lintScripts,
     buildStyles,
     copyFiles
