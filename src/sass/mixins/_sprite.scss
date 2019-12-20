@@ -11,42 +11,67 @@
 // $spritesheet: width height image $spritesheet-sprites;
 $-facebook-name: 'Facebook';
 $-facebook-x: 0px;
-$-facebook-y: 97px;
+$-facebook-y: 0px;
 $-facebook-offset-x: 0px;
-$-facebook-offset-y: -97px;
+$-facebook-offset-y: 0px;
 $-facebook-width: 29px;
 $-facebook-height: 29px;
-$-facebook-total-width: 155px;
-$-facebook-total-height: 126px;
-$-facebook-image: 'icons.png';
-$-facebook: (0px, 97px, 0px, -97px, 29px, 29px, 155px, 126px, 'icons.png', 'Facebook',);
+$-facebook-total-width: 66px;
+$-facebook-total-height: 29px;
+$-facebook-image: '../img/icons.png';
+$-facebook: (0px, 0px, 0px, 0px, 29px, 29px, 66px, 29px, '../img/icons.png', 'Facebook',);
+$warehouse-name: 'warehouse';
+$warehouse-x: 39px;
+$warehouse-y: 0px;
+$warehouse-offset-x: -39px;
+$warehouse-offset-y: 0px;
+$warehouse-width: 27px;
+$warehouse-height: 22px;
+$warehouse-total-width: 66px;
+$warehouse-total-height: 29px;
+$warehouse-image: '../img/icons.png';
+$warehouse: (39px, 0px, -39px, 0px, 27px, 22px, 66px, 29px, '../img/icons.png', 'warehouse',);
 $-facebook-2x-name: 'Facebook@2x';
-$-facebook-2x-x: 97px;
+$-facebook-2x-x: 0px;
 $-facebook-2x-y: 0px;
-$-facebook-2x-offset-x: -97px;
+$-facebook-2x-offset-x: 0px;
 $-facebook-2x-offset-y: 0px;
 $-facebook-2x-width: 58px;
 $-facebook-2x-height: 58px;
-$-facebook-2x-total-width: 155px;
-$-facebook-2x-total-height: 126px;
-$-facebook-2x-image: 'icons.png';
-$-facebook-2x: (97px, 0px, -97px, 0px, 58px, 58px, 155px, 126px, 'icons.png', 'Facebook@2x',);
-$-facebook-3x-name: 'Facebook@3x';
-$-facebook-3x-x: 0px;
-$-facebook-3x-y: 0px;
-$-facebook-3x-offset-x: 0px;
-$-facebook-3x-offset-y: 0px;
-$-facebook-3x-width: 87px;
-$-facebook-3x-height: 87px;
-$-facebook-3x-total-width: 155px;
-$-facebook-3x-total-height: 126px;
-$-facebook-3x-image: 'icons.png';
-$-facebook-3x: (0px, 0px, 0px, 0px, 87px, 87px, 155px, 126px, 'icons.png', 'Facebook@3x',);
-$spritesheet-width: 155px;
-$spritesheet-height: 126px;
-$spritesheet-image: 'icons.png';
-$spritesheet-sprites: ($-facebook, $-facebook-2x, $-facebook-3x, );
-$spritesheet: (155px, 126px, 'icons.png', $spritesheet-sprites,);
+$-facebook-2x-total-width: 132px;
+$-facebook-2x-total-height: 58px;
+$-facebook-2x-image: 'sprite@2x.png';
+$-facebook-2x: (0px, 0px, 0px, 0px, 58px, 58px, 132px, 58px, 'sprite@2x.png', 'Facebook@2x',);
+$warehouse-2x-name: 'warehouse@2x';
+$warehouse-2x-x: 78px;
+$warehouse-2x-y: 0px;
+$warehouse-2x-offset-x: -78px;
+$warehouse-2x-offset-y: 0px;
+$warehouse-2x-width: 54px;
+$warehouse-2x-height: 44px;
+$warehouse-2x-total-width: 132px;
+$warehouse-2x-total-height: 58px;
+$warehouse-2x-image: 'sprite@2x.png';
+$warehouse-2x: (78px, 0px, -78px, 0px, 54px, 44px, 132px, 58px, 'sprite@2x.png', 'warehouse@2x',);
+$spritesheet-width: 66px;
+$spritesheet-height: 29px;
+$spritesheet-image: '../img/icons.png';
+$spritesheet-sprites: ($-facebook, $warehouse,);
+$spritesheet: (66px, 29px, '../img/icons.png', $spritesheet-sprites,);
+$retina-spritesheet-width: 132px;
+$retina-spritesheet-height: 58px;
+$retina-spritesheet-image: 'sprite@2x.png';
+$retina-spritesheet-sprites: ($-facebook-2x, $warehouse-2x,);
+$retina-spritesheet: (132px, 58px, 'sprite@2x.png', $retina-spritesheet-sprites,);
+
+// These "retina group" variables are mappings for the naming and pairing of normal and retina sprites.
+//
+// The list formatted variables are intended for mixins like `retina-sprite` and `retina-sprites`.
+$-facebook-group-name: 'Facebook';
+$-facebook-group: ('Facebook', $-facebook, $-facebook-2x,);
+$warehouse-group-name: 'warehouse';
+$warehouse-group: ('warehouse', $warehouse, $warehouse-2x,);
+$retina-groups: ($-facebook-group, $warehouse-group,);
 
 // The provided mixins are intended to be used with the array-like variables
 //
@@ -98,6 +123,34 @@ $spritesheet: (155px, 126px, 'icons.png', $spritesheet-sprites,);
   @include sprite-height($sprite);
 }
 
+// The `retina-sprite` mixin sets up rules and a media query for a sprite/retina sprite.
+//   It should be used with a "retina group" variable.
+//
+// The media query is from CSS Tricks: https://css-tricks.com/snippets/css/retina-display-media-query/
+//
+// $icon-home-group: ('icon-home', $icon-home, $icon-home-2x, );
+//
+// .icon-home {
+//   @include retina-sprite($icon-home-group);
+// }
+@mixin sprite-background-size($sprite) {
+  $sprite-total-width: nth($sprite, 7);
+  $sprite-total-height: nth($sprite, 8);
+  background-size: $sprite-total-width $sprite-total-height;
+}
+
+@mixin retina-sprite($retina-group) {
+  $normal-sprite: nth($retina-group, 2);
+  $retina-sprite: nth($retina-group, 3);
+  @include sprite($normal-sprite);
+
+  @media (-webkit-min-device-pixel-ratio: 2),
+  (min-resolution: 192dpi) {
+    @include sprite-image($retina-sprite);
+    @include sprite-background-size($normal-sprite);
+  }
+}
+
 // The `sprites` mixin generates identical output to the CSS template
 //   but can be overridden inside of SCSS
 //
@@ -107,6 +160,19 @@ $spritesheet: (155px, 126px, 'icons.png', $spritesheet-sprites,);
     $sprite-name: nth($sprite, 10);
     .#{$sprite-name} {
       @include sprite($sprite);
+    }
+  }
+}
+
+// The `retina-sprites` mixin generates a CSS rule and media query for retina groups
+//   This yields the same output as CSS retina template but can be overridden in SCSS
+//
+// @include retina-sprites($retina-groups);
+@mixin retina-sprites($retina-groups) {
+  @each $retina-group in $retina-groups {
+    $sprite-name: nth($retina-group, 1);
+    .#{$sprite-name} {
+      @include retina-sprite($retina-group);
     }
   }
 }

@@ -2,7 +2,7 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 /* Base styles start*/
@@ -10,6 +10,7 @@ body {
 	background-color: #fff;
 	font-family: $ff;
 }
+
 /* Base styles end*/
 
 // .container {
@@ -20,3 +21,19 @@ body {
 // .container-flex {
 //   display: flex;
 // }
+
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@mixin retina-sprites($retina-groups) {
+  @each $retina-group in $retina-groups {
+    $sprite-name: nth($retina-group, 1);
+    .i-#{$sprite-name} {
+      @include retina-sprite($retina-group);
+    }
+  }
+}
+
+@include retina-sprites($retina-groups);
