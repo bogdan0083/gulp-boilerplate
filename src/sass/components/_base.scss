@@ -1,19 +1,19 @@
-@include font-face("Gilroy", "../fonts/Gilroy-Regular");
-@include font-face("Gilroy", "../fonts/Gilroy-RegularItalic", normal, italic);
-@include font-face("Gilroy", "../fonts/Gilroy-Bold", bold, normal);
-@include font-face("Gilroy", "../fonts/Gilroy-BoldItalic", bold, italic);
-@include font-face("Gilroy", "../fonts/Gilroy-Heavy", 900, normal);
-@include font-face("Gilroy", "../fonts/Gilroy-HeavyItalic", 900, italic);
-@include font-face("Gilroy", "../fonts/Gilroy-Medium", 500, normal);
-@include font-face("Gilroy", "../fonts/Gilroy-MediumItalic", 500, italic);
-@include font-face("Gilroy", "../fonts/Gilroy-Light", 300, normal);
-@include font-face("Gilroy", "../fonts/Gilroy-LightItalic", 300, italic);
-
-@mixin gilroy($weight: null, $style: null) {
-  font-family: "Gilroy", $font-family-base;
-  font-weight: $weight;
-  font-style: $style;
-}
+//@include font-face("Gilroy", "../fonts/Gilroy-Regular");
+//@include font-face("Gilroy", "../fonts/Gilroy-RegularItalic", normal, italic);
+//@include font-face("Gilroy", "../fonts/Gilroy-Bold", bold, normal);
+//@include font-face("Gilroy", "../fonts/Gilroy-BoldItalic", bold, italic);
+//@include font-face("Gilroy", "../fonts/Gilroy-Heavy", 900, normal);
+//@include font-face("Gilroy", "../fonts/Gilroy-HeavyItalic", 900, italic);
+//@include font-face("Gilroy", "../fonts/Gilroy-Medium", 500, normal);
+//@include font-face("Gilroy", "../fonts/Gilroy-MediumItalic", 500, italic);
+//@include font-face("Gilroy", "../fonts/Gilroy-Light", 300, normal);
+//@include font-face("Gilroy", "../fonts/Gilroy-LightItalic", 300, italic);
+//
+//@mixin gilroy($weight: null, $style: null) {
+//  font-family: "Gilroy", $font-family-base;
+//  font-weight: $weight;
+//  font-style: $style;
+//}
 
 html {
   -moz-osx-font-smoothing: grayscale;
