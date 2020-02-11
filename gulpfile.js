@@ -370,35 +370,35 @@ var svgo = function() {
 // Optimize images
 var buildImages = function () {
   return src(paths.images.input)
-    .pipe(
-      cache(
-        imagemin([
-          imageminPngquant({
-            speed: 1,
-            quality: [0.95, 1] //lossy settings
-          }),
-          imageminZopfli({
-            more: true
-            // iterations: 50 // very slow but more effective
-          }),
-          //gif very light lossy, use only one of gifsicle or Giflossy
-          imageminGiflossy({
-            optimizationLevel: 3,
-            optimize: 3, //keep-empty: Preserve empty transparent frames
-            lossy: 2
-          }),
-          //svg
-          //jpg lossless
-          imagemin.jpegtran({
-            progressive: true
-          }),
-          //jpg very light lossy, use vs jpegtran
-          imageminMozjpeg({
-            quality: 90
-          })
-        ], {verbose: true})
-      )
-    )
+  // .pipe(
+  //   cache(
+  //     imagemin([
+  //       imageminPngquant({
+  //         speed: 1,
+  //         quality: [0.95, 1] //lossy settings
+  //       }),
+  //       imageminZopfli({
+  //         more: true
+  //         // iterations: 50 // very slow but more effective
+  //       }),
+  //       //gif very light lossy, use only one of gifsicle or Giflossy
+  //       imageminGiflossy({
+  //         optimizationLevel: 3,
+  //         optimize: 3, //keep-empty: Preserve empty transparent frames
+  //         lossy: 2
+  //       }),
+  //       //svg
+  //       //jpg lossless
+  //       imagemin.jpegtran({
+  //         progressive: true
+  //       }),
+  //       //jpg very light lossy, use vs jpegtran
+  //       imageminMozjpeg({
+  //         quality: 90
+  //       })
+  //     ], {verbose: true})
+  //   )
+  // )
     .pipe(dest(paths.images.output));
 };
 
