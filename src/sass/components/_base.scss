@@ -39,7 +39,7 @@ html {
 body {
   background-color: #f3f3f3;
   min-width: 320px;
-  @include gilroy();
+  //@include gilroy();
 }
 
 a {
@@ -258,46 +258,6 @@ img {
   }
 }
 
-.input-row, .textarea-row {
-  margin-top: 14px;
-  margin-bottom: 14px;
-  position: relative;
-
-  &-icon {
-    .input-item, .textarea-item {
-      padding-left: 60px;
-    }
-
-    .icon-wrap {
-      position: absolute;
-      left: 10px;
-      width: 40px;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-
-  &-mail .icon {
-    svg path {
-      fill: darken(#c0c7cd, 20%);
-    }
-
-    margin-top: -2px;
-  }
-
-  .icon-pen {
-    margin-top: 3px;
-  }
-}
-
-.form-row-invalid {
-  .input-item, .textarea-item {
-    border-color: #b6174f;
-  }
-}
-
 .textarea-row-icon {
   .icon-wrap {
     top: 0;
@@ -336,6 +296,46 @@ img {
   padding-top: 22px;
   @include up('md') {
     width: 580px;
+  }
+}
+
+.input-row, .textarea-row {
+  margin-top: 14px;
+  margin-bottom: 14px;
+  position: relative;
+
+  &-icon {
+    .input-item, .textarea-item {
+      padding-left: 60px;
+    }
+
+    .icon-wrap {
+      position: absolute;
+      left: 10px;
+      width: 40px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &-mail .icon {
+    svg path {
+      fill: darken(#c0c7cd, 20%);
+    }
+
+    margin-top: -2px;
+  }
+
+  .icon-pen {
+    margin-top: 3px;
+  }
+}
+
+.form-row-invalid {
+  .input-item, .textarea-item {
+    border-color: #b6174f;
   }
 }
 
