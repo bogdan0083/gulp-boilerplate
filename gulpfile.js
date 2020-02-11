@@ -1,3 +1,6 @@
+// @TODO: add css validator
+// @TODO: "list pages" task from generator-man repo.
+
 /* eslint-disable */
 
 /**
@@ -9,6 +12,7 @@ var settings = {
   clean: true,
   scripts: true,
   html: true,
+  validateHtml: true,
   polyfills: false,
   styles: true,
   svgSprites: true,
@@ -33,7 +37,7 @@ var paths = {
     input: "src/templates/*.html",
     templatesDir: "src/templates/",
     watch: "src/templates/**/[^_]*.html",
-    output: "dist/"
+    output: "dist/",
   },
   styles: {
     input: "src/sass/**/*.{scss,sass}",
@@ -76,6 +80,7 @@ var rename = require("gulp-rename");
 var header = require("gulp-header");
 var package = require("./package.json");
 var path = require("path");
+var plumber = require("gulp-plumber");
 
 // Scripts
 var jshint = require("gulp-jshint");
@@ -111,6 +116,9 @@ var consolidate = require('gulp-consolidate');
 
 // BrowserSync
 var browserSync = require("browser-sync");
+
+// html validator
+var validator = require("gulp-html");
 
 // Nunjucks template engine
 var changed = require("gulp-changed");
@@ -217,21 +225,21 @@ var buildHtml = function (done) {
 
   // Lint scripts
   return src(paths.html.input)
-  // .pipe(gulpif(onlyChanged, changed(paths.html.output)))
+    .pipe(plumber())
     .pipe(frontMatter({property: 'data'}))
     .pipe(nunjucksRender({
-      // PRODUCTION: config.production,
       path: [paths.html.templatesDir]
     }))
-    // .pipe(prettify({
-    //   indent_size: 2,
-    //   wrap_attributes: 'auto', // 'force'
-    //   preserve_newlines: true,
-    //   end_with_newline: true,
-    //   indent_inner_html: true
-    // }))
     .pipe(useref({searchPath: __dirname}))
     .pipe(dest(paths.html.output));
+};
+
+var validateHtml = function (done) {
+  if (!settings.validateHtml) return done();
+
+  return src(paths.html.output + '*.html')
+    .pipe(plumber())
+    .pipe(validator());
 };
 
 // Process, lint, and minify Sass files
@@ -494,7 +502,7 @@ exports.default = series(
   parallel(
     series(buildSprites, buildSvgSprites, buildImages),
     buildScripts,
-    series(svgo, buildHtml),
+    series(svgo, buildHtml, validateHtml),
     lintScripts,
     buildStyles,
     copyFiles
