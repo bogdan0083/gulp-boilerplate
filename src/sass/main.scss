@@ -1,22 +1,23 @@
 // @TODO: We import extenal libraries with relative path
 // for now to make autocomplete suggestions show up on imported libs
 @import 'functions.scss';
+
 // Normalize.css
 @import '../../node_modules/normalize.css/normalize';
+// variables
+@import 'variables.scss';
 
 // external libraries
 // @import '../../node_modules/bootstrap/scss/bootstrap-grid.scss';
 @import '../../node_modules/aos/dist/aos';
 @import '../../node_modules/swiper/swiper.scss';
 @import '../../node_modules/@fancyapps/fancybox/src/css/core';
-
 @import '../../node_modules/bootstrap/scss/mixins/breakpoints.scss';
 @import '../../node_modules/bootstrap/scss/mixins.scss';
 @import '../../node_modules/bootstrap/scss/functions.scss';
 @import '../../node_modules/bootstrap/scss/variables.scss';
-
-// variables
-@import 'variables.scss';
+//@import '../../node_modules/bootstrap/scss/utilities.scss';
+//@import '../../node_modules/bootstrap/scss/transitions.scss';
 
 // mixins
 @import 'mixins/font-face';

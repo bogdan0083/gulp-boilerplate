@@ -1,3 +1,25 @@
+@include font-face("Gilroy", "../fonts/Gilroy-Regular");
+@include font-face("Gilroy", "../fonts/Gilroy-RegularItalic", normal, italic);
+@include font-face("Gilroy", "../fonts/Gilroy-Bold", bold, normal);
+@include font-face("Gilroy", "../fonts/Gilroy-BoldItalic", bold, italic);
+@include font-face("Gilroy", "../fonts/Gilroy-Heavy", 900, normal);
+@include font-face("Gilroy", "../fonts/Gilroy-HeavyItalic", 900, italic);
+@include font-face("Gilroy", "../fonts/Gilroy-Medium", 500, normal);
+@include font-face("Gilroy", "../fonts/Gilroy-MediumItalic", 500, italic);
+@include font-face("Gilroy", "../fonts/Gilroy-Light", 300, normal);
+@include font-face("Gilroy", "../fonts/Gilroy-LightItalic", 300, italic);
+
+@mixin gilroy($weight: null, $style: null) {
+  font-family: "Gilroy", $font-family-base;
+  font-weight: $weight;
+  font-style: $style;
+}
+
+html {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
 // Change from `box-sizing: content-box` so that `width` is not affected by `padding` or `border`.
 *,
 *::before,
@@ -5,35 +27,638 @@
   box-sizing: border-box;
 }
 
-/* Base styles start*/
+// disable aos.js on smartphones and tablets. We don't want the screen to flicker
+[data-aos] {
+  @include media-breakpoint-between('xs', 'lg') {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Base styles start */
 body {
-	background-color: #fff;
-	font-family: $ff;
+  background-color: #f3f3f3;
+  min-width: 320px;
+  @include gilroy();
+}
+
+a {
+  color: $text-primary;
+  transition: all 0.4s;
+
+  &:hover {
+    color: $primary;
+  }
+
+  &:active {
+    color: darken($primary, 5%);
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  width: auto;
 }
 
 /* Base styles end*/
 
-// .container {
-//   @include make-container();
-//   @include make-container-max-widths();
-// }
+// enable container mixins. Disabled by default.
+//.container {
+//  @include make-container();
+//  @include make-container-max-widths();
+//}
 
-// .container-flex {
-//   display: flex;
-// }
+.container-flex {
+  display: flex;
+}
 
 .icon {
   display: inline-block;
   vertical-align: middle;
+  border: none;
+
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+
+    path {
+      transition: fill 0.4s;
+    }
+  }
+
 }
 
-@mixin retina-sprites($retina-groups) {
-  @each $retina-group in $retina-groups {
-    $sprite-name: nth($retina-group, 1);
-    .i-#{$sprite-name} {
-      @include retina-sprite($retina-group);
+.mobile-nav-trigger {
+  display: block;
+  cursor: pointer;
+  transition: all 0.4s;
+
+  .burger {
+    @include burger(20px, 4px, 9px, $black);
+  }
+
+  &.active {
+    .burger {
+      @include burger-to-cross();
     }
   }
 }
 
-@include retina-sprites($retina-groups);
+.list-reset {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.button {
+  height: 60px;
+  line-height: 58px;
+  display: block;
+  width: 285px;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-decoration: none;
+  transition: all 0.4s;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  background-color: $primary;
+  color: $white;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+
+  &:focus, &:hover {
+    outline: none;
+    box-shadow: 0 0 10px 3px rgba($primary, 0.1);
+  }
+
+  .text {
+    position: relative;
+    z-index: 2;
+  }
+
+  &:before, .button-combined-main:before, .button-combined-right:before {
+    content: '';
+    background-color: $white;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    position: absolute;
+    transform: translateY(-113%);
+    transition: all 0.4s;
+    @include up('md') {
+      display: block;
+    }
+  }
+
+  &:hover {
+    color: $primary;
+
+    &:before {
+      transform: none;
+    }
+  }
+}
+
+.color-primary {
+  color: $primary;
+}
+
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  margin-top: -42px;
+  z-index: 10;
+  box-sizing: border-box;
+  background-color: transparent;
+  width: auto;
+  height: auto;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+
+  svg path {
+    transition: all 0.4s;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover, &:active {
+    opacity: 0.6;
+
+    svg path {
+      stroke: $primary;
+    }
+  }
+
+  &-prev {
+    left: 35px;
+  }
+
+  &-next {
+    right: 32px;
+  }
+}
+
+.swiper-pagination-bullets {
+  bottom: 20px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+
+  .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background-color: #cecece;
+    padding: 0;
+    border-radius: 50%;
+    margin: 0 10px;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+
+    &:hover {
+      background-color: $primary;
+    }
+
+    &-active:after {
+      opacity: 1;
+    }
+
+    &-active {
+      background-color: $primary;
+    }
+  }
+}
+
+.badge {
+  background-color: $primary;
+  color: $white;
+  border-radius: 50%;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 15px;
+
+  &-micro {
+    font-size: 9px;
+    width: 17px;
+    height: 17px;
+    line-height: 16px;
+    font-weight: bold;
+  }
+}
+
+.input-row, .textarea-row {
+  margin-top: 14px;
+  margin-bottom: 14px;
+  position: relative;
+
+  &-icon {
+    .input-item, .textarea-item {
+      padding-left: 60px;
+    }
+
+    .icon-wrap {
+      position: absolute;
+      left: 10px;
+      width: 40px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &-mail .icon {
+    svg path {
+      fill: darken(#c0c7cd, 20%);
+    }
+
+    margin-top: -2px;
+  }
+
+  .icon-pen {
+    margin-top: 3px;
+  }
+}
+
+.form-row-invalid {
+  .input-item, .textarea-item {
+    border-color: #b6174f;
+  }
+}
+
+.textarea-row-icon {
+  .icon-wrap {
+    top: 0;
+    height: 60px;
+  }
+}
+
+.input-item, .textarea-item {
+  background-color: #fff;
+  transition: all 0.3s;
+  color: $black;
+  border: 1px solid #d1d1d1;
+  border-radius: 0;
+  padding: 0 15px;
+  height: 60px;
+  font-size: 14px;
+  width: 285px;
+  display: block;
+  box-shadow: none;
+  appearance: none;
+
+  &::placeholder {
+    color: $black;
+  }
+
+  &:focus {
+    border-color: $primary;
+    outline: none;
+  }
+}
+
+.textarea-item {
+  resize: none;
+  width: 285px;
+  height: 140px;
+  padding-top: 22px;
+  @include up('md') {
+    width: 580px;
+  }
+}
+
+.section-title {
+  text-align: center;
+  margin-top: 0;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+  color: #515456;
+
+  span {
+    font-weight: bold;
+    display: block;
+    @include up('md') {
+      display: inline;
+    }
+  }
+
+  @include up('lg') {
+    font-size: 60px;
+  }
+}
+
+.price {
+  font-weight: bold;
+  font-size: 17px;
+  color: $primary;
+  margin: 2px 0;
+
+  &-old {
+    font-size: 14px;
+    color: #a7acaa;
+    font-weight: normal;
+
+    span {
+      position: relative;
+      display: inline-block;
+
+      &:after {
+        content: '';
+        width: 105%;
+        height: 1px;
+        background-color: #a7acaa;
+        position: absolute;
+        left: 0;
+        bottom: 0.4em;
+      }
+    }
+  }
+}
+
+.breadcrumbs {
+  font-size: 14px;
+  margin-bottom: 34px;
+
+  a {
+    text-decoration: none;
+  }
+
+  .sep {
+    margin: 0 5px;
+  }
+
+  .active {
+    pointer-events: none;
+  }
+}
+
+.product-quantity {
+  width: 130px;
+  color: $black-secondary;
+  position: relative;
+  height: 40px;
+  line-height: 40px;
+  @include up('md') {
+    width: 160px;
+  }
+
+  &-substract, &-add {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    color: $black-secondary;
+    background-color: transparent;
+    border: 2px solid $black-secondary;
+    transition: all 0.4s;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    font-size: 30px;
+    font-weight: 500;
+    padding: 0;
+    cursor: pointer;
+
+    &:hover, &:active {
+      background-color: $primary;
+      border-color: $primary;
+      color: $white;
+    }
+
+    &:focus {
+      border-color: $primary;
+      outline: none;
+    }
+  }
+
+  &-add {
+    left: auto;
+    right: 0;
+  }
+
+  &-input {
+    text-align: center;
+    background: transparent;
+    padding: 0;
+    width: 100%;
+    display: block;
+    height: 40px;
+    border: none;
+    box-shadow: none;
+    padding-left: 45px;
+    padding-right: 45px;
+    font-size: 22px;
+
+    &:focus {
+      outline: none;
+    }
+
+    @include up('lg') {
+      font-size: 31px;
+    }
+  }
+}
+
+.popup {
+  width: 285px;
+  z-index: 115;
+  margin: auto;
+  text-align: center;
+  display: none;
+
+  .fancybox-button {
+    display: none;
+  }
+
+  &.fancybox-content {
+    padding: 0;
+  }
+
+  &-heading {
+    font-weight: 400;
+    font-size: 20px;
+    margin-top: 0;
+    @include up('md') {
+      font-size: 28px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  .wrapper {
+    position: relative;
+    background-color: $white;
+    border: 1px solid $gray-secondary;
+    padding: 40px 20px 20px;
+    height: 100%;
+    @include up('md') {
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .button {
+    width: 100%;
+    margin-top: 20px;
+    display: block;
+  }
+
+  .input-item {
+    width: 100%;
+    @include up('md') {
+      width: 300px;
+    }
+  }
+
+  @include up('md') {
+    width: 540px;
+    height: 380px;
+  }
+}
+
+.checkbox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  transition: all 0.4s;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  .text {
+    font-size: 14px;
+    font-weight: 500;
+    order: -1;
+  }
+
+  .icon {
+    flex: 0 0 20px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid $gray-secondary;
+    border-radius: 4px;
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      transition: all 0.4s;
+      width: 12px;
+      height: 12px;
+      opacity: 0;
+    }
+  }
+
+  input {
+    display: none;
+
+    &:checked {
+      + .icon svg {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.range-inputs {
+  display: flex;
+  margin-left: -20px;
+  margin-right: -20px;
+  margin-bottom: -20px;
+  min-width: 0;
+
+  .input-item {
+    border-radius: 4px;
+    width: 100%;
+    height: 40px;
+    padding-left: 30px;
+    padding-right: 4px;
+    font-size: 15px;
+    color: $black-secondary;
+  }
+
+  .input-row {
+    position: relative;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 12px;
+    flex-grow: 1;
+  }
+
+  .input-text {
+    line-height: 42px;
+    height: 40px;
+    font-size: 12px;
+    font-weight: 500;
+    position: absolute;
+    left: 10px;
+  }
+}
+
+.pagination {
+  margin: 10px 0 20px;
+  padding: 0;
+  text-align: center;
+  list-style: none;
+}
+
+.pagination li {
+  display: inline-block;
+}
+
+.pagination .active {
+  cursor: default;
+  pointer-events: none;
+}
+
+.pagination a {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  color: $black-secondary;
+  text-decoration: none;
+  transition: all 0.4s;
+}
+
+.pagination a.active {
+  background-color: $primary;
+  color: #fff;
+}
+
+.pagination a:hover {
+  background-color: $gray-secondary;
+}
+
+// Sometimes we use PNG sprites with retina support. It's disabled by default
+
+//@mixin retina-sprites($retina-groups) {
+//  @each $retina-group in $retina-groups {
+//    $sprite-name: nth($retina-group, 1);
+//    .i-#{$sprite-name} {
+//      @include retina-sprite($retina-group);
+//    }
+//  }
+//}
