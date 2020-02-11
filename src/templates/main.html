@@ -1,0 +1,28 @@
+---
+title: Главная страница
+---
+{% extends "layouts/_layout.html" %}
+
+{% block content %}
+
+  {# variable example #}
+  <h1>{{ title }}</h1>
+
+  {# header #}
+  {% include "partials/_header.html" %}
+
+  {# mixin example #}
+  {#	{{mixins.icon('facebook')}}#}
+
+  {# data usage example #}
+  {% import "data/data.html" as tests %}
+
+  {% for test in tests.list %}
+    <li>{{ test.title }}</li>
+  {% endfor %}
+  {# end of example #}
+
+  {# footer #}
+  {% include "partials/_footer.html" %}
+
+{% endblock %}

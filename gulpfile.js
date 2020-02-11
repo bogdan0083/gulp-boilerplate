@@ -30,8 +30,9 @@ var paths = {
     output: "dist/js/"
   },
   html: {
-    input: "src/pug/*.pug",
-    watch: "src/pug/**/*.pug",
+    input: "src/templates/*.html",
+    templatesDir: "src/templates/",
+    watch: "src/templates/**/[^_]*.html",
     output: "dist/"
   },
   styles: {
@@ -111,8 +112,11 @@ var consolidate = require('gulp-consolidate');
 // BrowserSync
 var browserSync = require("browser-sync");
 
-// Pug.js
-var pug = require("gulp-pug");
+// Nunjucks template engine
+var changed = require("gulp-changed");
+var gulpif = require("gulp-if");
+var frontMatter = require("gulp-front-matter");
+var nunjucksRender = require("gulp-nunjucks-render");
 
 // Prettifier
 var prettify = require("gulp-prettify");
@@ -205,18 +209,27 @@ var buildHtml = function (done) {
   // Make sure this feature is activated before running
   if (!settings.html) return done();
 
+  nunjucksRender.nunjucks.configure({
+    watch: false,
+    trimBlocks: true,
+    lstripBlocks: false
+  });
+
   // Lint scripts
   return src(paths.html.input)
-    .pipe(pug())
-    .pipe(prettify({
-      indent_size: 2,
-      wrap_attributes: 'auto', // 'force'
-      preserve_newlines: true,
-      end_with_newline: true,
-      indent_inner_html: true
+  // .pipe(gulpif(onlyChanged, changed(paths.html.output)))
+    .pipe(frontMatter({property: 'data'}))
+    .pipe(nunjucksRender({
+      // PRODUCTION: config.production,
+      path: [paths.html.templatesDir]
     }))
-    .pipe(htmlhint('.htmlhintrc'))
-    .pipe(htmlhint.reporter())
+    // .pipe(prettify({
+    //   indent_size: 2,
+    //   wrap_attributes: 'auto', // 'force'
+    //   preserve_newlines: true,
+    //   end_with_newline: true,
+    //   indent_inner_html: true
+    // }))
     .pipe(useref({searchPath: __dirname}))
     .pipe(dest(paths.html.output));
 };
@@ -346,7 +359,7 @@ var buildSvgSprites = function (done) {
     .pipe(dest(paths.svgSprites.output));
 };
 
-var svgo = function() {
+var svgo = function () {
   return src(paths.svgo.input)
     .pipe(
       svgmin({
