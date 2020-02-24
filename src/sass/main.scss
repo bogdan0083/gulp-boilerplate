@@ -1,34 +1,31 @@
 // @TODO: We import extenal libraries with relative path
 // for now to make autocomplete suggestions show up on imported libs
 @import 'functions.scss';
-
 // Normalize.css
-@import '../../node_modules/normalize.css/normalize';
+@import '~normalize.css/normalize';
 // variables
 @import 'variables.scss';
 
 // external libraries
-// @import '../../node_modules/bootstrap/scss/bootstrap-grid.scss';
-@import '../../node_modules/aos/dist/aos';
-@import '../../node_modules/swiper/swiper.scss';
-@import '../../node_modules/@fancyapps/fancybox/src/css/core';
-@import '../../node_modules/bootstrap/scss/mixins/breakpoints.scss';
-@import '../../node_modules/bootstrap/scss/mixins.scss';
-@import '../../node_modules/bootstrap/scss/functions.scss';
-@import '../../node_modules/bootstrap/scss/variables.scss';
-//@import '../../node_modules/bootstrap/scss/utilities.scss';
-//@import '../../node_modules/bootstrap/scss/transitions.scss';
-
+// @import '~bootstrap/scss/bootstrap-grid.scss';
+@import '~aos/dist/aos';
+@import '~swiper/swiper.scss';
+@import '~@fancyapps/fancybox/src/css/core';
+@import '~bootstrap/scss/mixins/breakpoints.scss';
+@import '~bootstrap/scss/mixins.scss';
+@import '~bootstrap/scss/functions.scss';
+@import '~bootstrap/scss/variables.scss';
+//@import '~bootstrap/scss/utilities.scss';
+//@import '~bootstrap/scss/transitions.scss';
 // mixins
 @import 'mixins/font-face';
 @import 'mixins/burger';
 @import 'mixins/breakpoints';
 @import 'mixins/sprite';
-
 // svg sprite icons rules
 @import 'svg-sprite';
-
 // components
+@import 'generated/svg-sprite';
 @import 'components/base.scss';
 @import 'components/header.scss';
 @import 'components/footer.scss';

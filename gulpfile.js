@@ -1,4 +1,3 @@
-// @TODO: add css validator
 // @TODO: "list pages" task from generator-man repo.
 
 /* eslint-disable */
@@ -44,8 +43,8 @@ var paths = {
     output: "dist/css/"
   },
   svgSprites: {
-    input: "src/img/icons/*.svg",
-    output: "src/img/"
+    input: "src/icons/*.svg",
+    output: "dist/img/"
   },
   images: {
     input: ["!src/img/icons", "src/img/**/*"],
@@ -303,6 +302,7 @@ var buildSvgSprites = function (done) {
     .pipe(
       gulpcheerio({
         run: function ($, file) {
+
           $('[fill]:not([fill="currentColor"])').removeAttr('fill');
           $('[stroke]').removeAttr('stroke');
           let w, h, size;
@@ -317,10 +317,12 @@ var buildSvgSprites = function (done) {
             $('svg').attr('height', parseInt(h));
           }
           $('svg').attr('viewBox', '0 0 ' + parseInt(w) + ' ' + parseInt(h));
+
         },
         parserOptions: {xmlMode: true}
       })
     )
+    .pipe(plumber())
     .pipe(svgmin({
       js2svg: {
         pretty: true
@@ -359,11 +361,10 @@ var buildSvgSprites = function (done) {
         .pipe(consolidate('lodash', {
           symbols: data
         }))
-        .pipe(dest('src/sass/'));
+        .pipe(dest(paths.input + 'sass/generated'));
       cb();
     }))
-
-    .pipe(rename({basename: 'icons'}))
+    .pipe(rename({basename: 'sprite'}))
     .pipe(dest(paths.svgSprites.output));
 };
 
