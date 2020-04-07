@@ -1,6 +1,6 @@
 {% import "partials/_mixins.html" as mixins %}
 <!doctype html>
-<html lang="ru">
+<html class="no-js" lang="ru">
 <head>
   <meta charset="utf-8"/>
   <title>{% if title %}{{ title }}{% else %}Template{% endif %}</title>
@@ -9,6 +9,9 @@
   <meta name="theme-color" content="#fff"/>
   <meta name="format-detection" content="telephone=no"/>
   <link rel="stylesheet" media="all" href="css/main.css"/>
+  <script>
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  </script>
   {# {% include "../partials/_media-tags.html" %} #}
 </head>
 <body>
