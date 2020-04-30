@@ -81,7 +81,7 @@
 		"aos": "^3.0.0-beta.6",
 		"bootstrap": "^4.3.1",
 		"gulp-htmlhint": "^3.0.0",
-		"jquery": "^3.4.1",
+		"jquery": "^3.5.0",
 		"normalize.css": "^8.0.1",
 		"stylelint-config-standard": "^19.0.0",
 		"svg4everybody": "^2.1.9",
