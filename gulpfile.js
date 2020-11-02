@@ -90,6 +90,7 @@ var optimizejs = require("gulp-optimize-js");
 var useref = require("gulp-useref");
 
 // Styles
+var Fiber = require("fibers");
 var sass = require("gulp-sass");
 var postcss = require("gulp-postcss");
 var prefix = require("autoprefixer");
@@ -131,6 +132,7 @@ var prettify = require("gulp-prettify");
 // HTMLHint
 var htmlhint = require("gulp-htmlhint");
 
+sass.compiler = require('sass');
 
 /**
  * Gulp Tasks
@@ -260,6 +262,7 @@ var buildStyles = function (done) {
     )
     .pipe(
       sass({
+        fiber: Fiber,
         outputStyle: "expanded",
         sourceComments: false,
         includePaths: ["node_modules"],
