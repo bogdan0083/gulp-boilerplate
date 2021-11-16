@@ -33,9 +33,9 @@ var paths = {
     output: "dist/js/"
   },
   html: {
-    input: "src/templates/*.html",
+    input: "src/templates/**/*.html",
     templatesDir: "src/templates/",
-    watch: "src/templates/**/[^_]*.html",
+    watch: "src/templates/**/*.html",
     output: "dist/",
   },
   styles: {
@@ -90,8 +90,7 @@ var optimizejs = require("gulp-optimize-js");
 var useref = require("gulp-useref");
 
 // Styles
-var Fiber = require("fibers");
-var sass = require("gulp-sass");
+var sass = require('gulp-sass')(require('sass'));
 var postcss = require("gulp-postcss");
 var prefix = require("autoprefixer");
 var cssnano = require("cssnano");
@@ -131,8 +130,6 @@ var prettify = require("gulp-prettify");
 
 // HTMLHint
 var htmlhint = require("gulp-htmlhint");
-
-sass.compiler = require('sass');
 
 /**
  * Gulp Tasks
@@ -245,24 +242,23 @@ var validateHtml = function (done) {
 
 // Process, lint, and minify Sass files
 var buildStyles = function (done) {
-  const gulpStylelint = require("gulp-stylelint");
+  // const gulpStylelint = require("gulp-stylelint");
 
   // Make sure this feature is activated before running
   if (!settings.styles) return done();
 
   // Run tasks on all Sass files
   return src(paths.styles.input)
-    .pipe(
-      gulpStylelint({
-        fix: true,
-        failAfterError: false,
-        syntax: "scss",
-        reporters: [{formatter: "string", console: true}]
-      })
-    )
+    // .pipe(
+    //   gulpStylelint({
+    //     fix: true,
+    //     failAfterError: false,
+    //     syntax: "scss",
+    //     reporters: [{formatter: "string", console: true}]
+    //   })
+    // )
     .pipe(
       sass({
-        fiber: Fiber,
         outputStyle: "expanded",
         sourceComments: false,
         includePaths: ["node_modules"],
@@ -274,24 +270,24 @@ var buildStyles = function (done) {
         }
       })
     )
-    .pipe(
-      postcss([
-        prefix(),
-        cssnano({
-          preset: [
-            "default",
-            {
-              rawCache: false,
-              normalizeWhitespace: false
-            }
-          ]
-        }),
-        require('postcss-sort-media-queries')({
-          // sort: 'mobile-first' default value
-          sort: 'mobile-first'
-        }),
-      ])
-    )
+    // .pipe(
+    //   postcss([
+    //     prefix(),
+    //     cssnano({
+    //       preset: [
+    //         "default",
+    //         {
+    //           rawCache: false,
+    //           normalizeWhitespace: false
+    //         }
+    //       ]
+    //     }),
+    //     require('postcss-sort-media-queries')({
+    //       // sort: 'mobile-first' default value
+    //       sort: 'mobile-first'
+    //     }),
+    //   ])
+    // )
     .pipe(dest(paths.styles.output));
 };
 
