@@ -7,16 +7,11 @@
 @import 'variables.scss';
 
 // external libraries
-// @import '~bootstrap/scss/bootstrap-grid.scss';
+@import '~bootstrap/scss/bootstrap-reboot.scss';
+@import '~bootstrap/scss/bootstrap-grid.scss';
 @import '~aos/dist/aos';
 @import '~swiper/swiper.scss';
 @import '~@fancyapps/fancybox/src/css/core';
-@import '~bootstrap/scss/mixins/breakpoints.scss';
-@import '~bootstrap/scss/mixins.scss';
-@import '~bootstrap/scss/functions.scss';
-@import '~bootstrap/scss/variables.scss';
-//@import '~bootstrap/scss/utilities.scss';
-//@import '~bootstrap/scss/transitions.scss';
 // mixins
 @import 'mixins/font-face';
 @import 'mixins/burger';
