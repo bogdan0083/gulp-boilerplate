@@ -131,6 +131,9 @@ var prettify = require("gulp-prettify");
 // HTMLHint
 var htmlhint = require("gulp-htmlhint");
 
+var fs = require("fs");
+const gulpTemplate = require("gulp-template");
+
 /**
  * Gulp Tasks
  */
@@ -210,7 +213,26 @@ var lintScripts = function (done) {
     .pipe(jshint.reporter("jshint-stylish"));
 };
 
+var getPagesData = path => {
+  let htmlFiles = fs.readdirSync(path).filter(f => f.includes('.html'))
+  console.log(htmlFiles)
+  let pagesData = htmlFiles.map(f => {
+    let fileContentsStr = fs.readFileSync(path + f).toString()
+    let title = fileContentsStr.match(/title:\s?(?<title>.*)\n/).groups.title
+    return {filePath: f, title}
+  })
+
+  return pagesData
+}
+
 // Build HTML
+var buildPagesList = function () {
+  var data = getPagesData('src/templates/')
+  return src('src/list-pages.html')
+    .pipe(gulpTemplate({data}))
+    .pipe(dest(paths.html.output))
+}
+
 var buildHtml = function (done) {
   // Make sure this feature is activated before running
   if (!settings.html) return done();
@@ -502,7 +524,7 @@ exports.default = series(
   parallel(
     series(buildSprites, buildSvgSprites, buildImages),
     buildScripts,
-    series(svgo, buildHtml, validateHtml),
+    series(svgo, buildHtml, buildPagesList, validateHtml),
     lintScripts,
     buildStyles,
     copyFiles
