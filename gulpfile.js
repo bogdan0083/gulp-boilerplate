@@ -215,7 +215,6 @@ var lintScripts = function (done) {
 
 var getPagesData = path => {
   let htmlFiles = fs.readdirSync(path).filter(f => f.includes('.html'))
-  console.log(htmlFiles)
   let pagesData = htmlFiles.map(f => {
     let fileContentsStr = fs.readFileSync(path + f).toString()
     let title = fileContentsStr.match(/title:\s?(?<title>.*)\n/).groups.title
