@@ -1,8 +1,10 @@
 // @TODO: We import extenal libraries with relative path
 // for now to make autocomplete suggestions show up on imported libs
 @import 'functions.scss';
+
 // Normalize.css
 @import '~normalize.css/normalize';
+
 // variables
 @import 'variables.scss';
 
@@ -12,13 +14,16 @@
 @import '~aos/dist/aos';
 @import '~swiper/swiper.scss';
 @import '~@fancyapps/fancybox/src/css/core';
+
 // mixins
 @import 'mixins/font-face';
 @import 'mixins/burger';
 @import 'mixins/breakpoints';
 @import 'mixins/sprite';
+
 // svg sprite icons rules
 @import 'svg-sprite';
+
 // components
 @import 'generated/svg-sprite';
 @import 'components/base.scss';
