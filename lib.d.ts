@@ -5,7 +5,7 @@ import fancybox from '@types/fancybox';
 
 declare global {
   var AOS: Aos;
-  var $: JQuery;
-  var fancybox: fancybox;
+  var $: JQuery;
+  var fancybox: fancybox;
   declare class Swiper extends SwiperClass {}
 }
