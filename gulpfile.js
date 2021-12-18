@@ -71,7 +71,7 @@ var paths = {
  */
 
 // General
-var {gulp, src, dest, watch, series, parallel} = require("gulp");
+var { gulp, src, dest, watch, series, parallel } = require("gulp");
 var del = require("del");
 var flatmap = require("gulp-flatmap");
 var lazypipe = require("lazypipe");
@@ -190,7 +190,7 @@ var buildScripts = function (done) {
         // If separate polyfills enabled, this will have .polyfills in the filename
         src(file.path + "/*.js")
           .pipe(concat(file.relative + suffix + ".js"))
-          .pipe(rename({suffix: ".min"}))
+          .pipe(rename({ suffix: ".min" }))
           .pipe(jsTasks());
 
         return stream;
@@ -218,7 +218,7 @@ var getPagesData = path => {
   let pagesData = htmlFiles.map(f => {
     let fileContentsStr = fs.readFileSync(path + f).toString()
     let title = fileContentsStr.match(/title:\s?(?<title>.*)\n/).groups.title
-    return {filePath: f, title}
+    return { filePath: f, title }
   })
 
   return pagesData
@@ -227,8 +227,8 @@ var getPagesData = path => {
 // Build HTML
 var buildPagesList = function () {
   var data = getPagesData('src/templates/')
-  return src('src/list-pages.html')
-    .pipe(gulpTemplate({data}))
+  return src('src/index.html')
+    .pipe(gulpTemplate({ data }))
     .pipe(dest(paths.html.output))
 }
 
@@ -245,11 +245,11 @@ var buildHtml = function (done) {
   // Lint scripts
   return src(paths.html.input)
     .pipe(plumber())
-    .pipe(frontMatter({property: 'data'}))
+    .pipe(frontMatter({ property: 'data' }))
     .pipe(nunjucksRender({
       path: [paths.html.templatesDir]
     }))
-    .pipe(useref({searchPath: __dirname}))
+    .pipe(useref({ searchPath: __dirname }))
     .pipe(dest(paths.html.output));
 };
 
@@ -287,7 +287,7 @@ var buildStyles = function (done) {
           if (url && url[0] === '~') {
             url = path.resolve('node_modules', url.substr(1));
           }
-          return {file: url};
+          return { file: url };
         }
       })
     )
@@ -339,7 +339,7 @@ var buildSvgSprites = function (done) {
           $('svg').attr('viewBox', '0 0 ' + parseInt(w) + ' ' + parseInt(h));
 
         },
-        parserOptions: {xmlMode: true}
+        parserOptions: { xmlMode: true }
       })
     )
     .pipe(plumber())
@@ -357,10 +357,10 @@ var buildSvgSprites = function (done) {
         mergePaths: false
       }]
     }))
-    .pipe(rename({prefix: 'icon-'}))
-    .pipe(svgStore({inlineSvg: false}))
+    .pipe(rename({ prefix: 'icon-' }))
+    .pipe(svgStore({ inlineSvg: false }))
     .pipe(through2.obj(function (file, encoding, cb) {
-      let $ = cheerio.load(file.contents.toString(), {xmlMode: true});
+      let $ = cheerio.load(file.contents.toString(), { xmlMode: true });
       let data = $('svg > symbol').map(function () {
         let $this = $(this);
         let size = $this.attr('viewBox').split(' ').splice(2);
@@ -384,7 +384,7 @@ var buildSvgSprites = function (done) {
         .pipe(dest(paths.input + 'sass/generated'));
       cb();
     }))
-    .pipe(rename({basename: 'sprite'}))
+    .pipe(rename({ basename: 'sprite' }))
     .pipe(dest(paths.svgSprites.output));
 };
 
@@ -412,35 +412,35 @@ var svgo = function () {
 // Optimize images
 var buildImages = function () {
   return src(paths.images.input)
-  // .pipe(
-  //   cache(
-  //     imagemin([
-  //       imageminPngquant({
-  //         speed: 1,
-  //         quality: [0.95, 1] //lossy settings
-  //       }),
-  //       imageminZopfli({
-  //         more: true
-  //         // iterations: 50 // very slow but more effective
-  //       }),
-  //       //gif very light lossy, use only one of gifsicle or Giflossy
-  //       imageminGiflossy({
-  //         optimizationLevel: 3,
-  //         optimize: 3, //keep-empty: Preserve empty transparent frames
-  //         lossy: 2
-  //       }),
-  //       //svg
-  //       //jpg lossless
-  //       imagemin.jpegtran({
-  //         progressive: true
-  //       }),
-  //       //jpg very light lossy, use vs jpegtran
-  //       imageminMozjpeg({
-  //         quality: 90
-  //       })
-  //     ], {verbose: true})
-  //   )
-  // )
+    // .pipe(
+    //   cache(
+    //     imagemin([
+    //       imageminPngquant({
+    //         speed: 1,
+    //         quality: [0.95, 1] //lossy settings
+    //       }),
+    //       imageminZopfli({
+    //         more: true
+    //         // iterations: 50 // very slow but more effective
+    //       }),
+    //       //gif very light lossy, use only one of gifsicle or Giflossy
+    //       imageminGiflossy({
+    //         optimizationLevel: 3,
+    //         optimize: 3, //keep-empty: Preserve empty transparent frames
+    //         lossy: 2
+    //       }),
+    //       //svg
+    //       //jpg lossless
+    //       imagemin.jpegtran({
+    //         progressive: true
+    //       }),
+    //       //jpg very light lossy, use vs jpegtran
+    //       imageminMozjpeg({
+    //         quality: 90
+    //       })
+    //     ], {verbose: true})
+    //   )
+    // )
     .pipe(dest(paths.images.output));
 };
 
