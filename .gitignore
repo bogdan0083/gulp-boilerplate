@@ -18,3 +18,7 @@ debug.log
 
 *.sublime-project
 *.sublime-workspace
+
+# Generated scss data
+src/sass/generated/_svg-sprite.scss
+src/sass/mixins/_sprite.scss
