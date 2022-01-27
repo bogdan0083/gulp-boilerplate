@@ -1,0 +1,4 @@
+@mixin tr($props: all, $duration: 0.3s) {
+  transition-property: $props;
+  transition-duration: $duration;
+}
