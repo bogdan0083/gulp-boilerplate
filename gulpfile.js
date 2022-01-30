@@ -17,7 +17,7 @@ var settings = {
   svgSprites: true,
   copy: true,
   reload: true,
-  sprite: true
+  sprite: false
 };
 
 /**
@@ -323,8 +323,8 @@ var buildSvgSprites = function (done) {
       gulpcheerio({
         run: function ($, file) {
 
-          $('[fill]:not([fill="currentColor"])').removeAttr('fill');
-          $('[stroke]').removeAttr('stroke');
+          // $('[fill]:not([fill="currentColor"])').removeAttr('fill');
+          // $('[stroke]').removeAttr('stroke');
           let w, h, size;
           if ($('svg').attr('height')) {
             w = $('svg').attr('width').replace(/\D/g, '');
@@ -354,8 +354,8 @@ var buildSvgSprites = function (done) {
       }, {
         removeViewBox: false
       }, {
-        mergePaths: false
-      }]
+        mergePaths: true
+      }, { convertColors: { currentColor: true } }]
     }))
     .pipe(rename({ prefix: 'icon-' }))
     .pipe(svgStore({ inlineSvg: false }))
@@ -372,8 +372,10 @@ var buildSvgSprites = function (done) {
         return {
           name: name,
           ratio: +ratio.toFixed(2),
-          fill: fill || 'initial',
-          stroke: stroke || 'initial'
+          width: size[0],
+          height: size[1]
+          // fill: 'currentColor',
+          // stroke: 'currentColor'
         };
       }).get();
       this.push(file);
@@ -521,7 +523,7 @@ var watchSource = function (done) {
 exports.default = series(
   cleanDist,
   parallel(
-    series(buildSprites, buildSvgSprites, buildImages),
+    series(buildSvgSprites, buildImages),
     buildScripts,
     series(svgo, buildHtml, buildPagesList, validateHtml),
     lintScripts,

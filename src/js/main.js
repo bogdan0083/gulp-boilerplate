@@ -1,3 +1,3 @@
 $(function() {
-  AOS.init();
+  svg4everybody();
 });

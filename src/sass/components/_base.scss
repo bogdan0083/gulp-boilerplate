@@ -77,17 +77,8 @@ img {
   display: inline-block;
   vertical-align: middle;
   border: none;
-
-  svg {
-    width: 100%;
-    height: auto;
-    display: block;
-
-    path {
-      transition: fill 0.4s;
-    }
-  }
-
+  fill: none;
+  stroke: none;
 }
 
 .mobile-nav-trigger {
